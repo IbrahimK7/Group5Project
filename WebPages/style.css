@@ -47,13 +47,12 @@
 .login {
     border: 1px solid black;
     width: 300px;  
-    margin: 85px auto;            
+    margin:  auto;            
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    
 }
 
-#no-text-navbar {
-    padding: 25px;
-}
+
