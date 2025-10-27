@@ -17,43 +17,42 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home</title>
+        <title>Login</title>
 
     </head>
 
     <body>
-        <!-- This is the navigation bar at the top-->
         <nav class="navbar navbar-expand-lg navbar-light bg-primary">
             <div class="container-fluid">
                 <span class="navbar-brand mb-0 h1">PlatformName</span>
                 <div class="ms-auto d-flex gap-4">
-                    <span>Home</span>
-                    <span>Inbox</span>
-                    <span>Host</span>
-                    <span>Search</span>
+                    <span>Register</span>
                     <span>Settings</span>
                 </div>
             </div>
 
         </nav>
-       
-       <!-- This is the main title --> 
-        <div class="title">
-            <h1 style="text-align: center;">
-                Home
-            </h1>
+
+        <!-- This is the logo -->
+        <div class="logo">
+            <h3>Logo</h3>
         </div>
 
-        <!-- This is the "What's Hot" section-->
-        <div class="whats-hot">
-            <h2>What's Hot</h2>
-            <p>Games</p>
-        </div>
-       
-        <!-- This is the "Last-Played" section-->
-        <div class="last-played">
-            <h3>Last Played</h3>
-
-        </div>
+        
+        <!-- This is the log in form -->
+        <form class="login">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Create an Account</button>
+            <button type="button" class="btn btn-link w-100 mt-2">Forgot Password?</button>
+        </form>
+        
     </body>
 </html>
