@@ -33,3 +33,14 @@ def register_routes(app):
     def settings():
         return jsonify({"message": "User settings page!"})
     
+    @app.route('/api/create-account')
+    def create_account():
+        return jsonify({"message": "Create an account!"})
+
+    @app.route('/api/profile')
+    def profile():
+        return jsonify({"message": "This is your profile!"})
+
+    @app.route('/api/rate')
+    def rate():
+        return jsonify({"message": "Rate your experience!"})
