@@ -18,3 +18,17 @@ USERS = [
         'email': 'marin@google.com'
     }
 ]
+
+
+def validate_login(username, password):
+    for user in USERS:
+        if user['username'] == username and user['password'] == password:
+            return True
+    return False
+
+def get_user_by_username(username):
+    for user in USERS:
+        if user['username'] == username:
+            return user
+    return None     
+

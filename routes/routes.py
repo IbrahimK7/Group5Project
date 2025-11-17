@@ -1,13 +1,15 @@
-from flask import jsonify
+from flask import jsonify, render_template
+import os
 
 def register_routes(app):
     @app.route('/api/hello')
     def hello():
         return jsonify({"message": "Hello from Flask!"})
     
-    @app.route('/api/login')
+    @app.route('/login')
     def login ():
-        return jsonify({"message": "you have logged in!"})
+        return render_template("login.html")
+        # return jsonify({"message": "you have logged in!"})
     
     @app.route('/api/forgot-password')
     def forgot_password():

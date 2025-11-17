@@ -1,4 +1,4 @@
-from app import app
+from Flask.utils import app
 
 def test_hello():
     with app.test_client() as client:
