@@ -17,15 +17,15 @@ def register_routes(app):
     
     @app.route('/api/home')
     def home():
-        return jsonify({"message": "Welcome to the home page!"})
+        return render_template("home.html")
     
     @app.route('/api/inbox')
     def inbox():
-        return jsonify({"message": "Here is your inbox!"})
+        return render_template("messages.html")
     
     @app.route('/api/host')
     def host():
-        return jsonify({"message": "Host a party!"})
+        return render_template("host.html")
     
     @app.route('/api/search')
     def search():

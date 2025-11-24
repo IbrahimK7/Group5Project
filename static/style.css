@@ -55,4 +55,80 @@
     
 }
 
+.host-container {
+    width: 420px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 3px solid #cfcfcf;
+    border-radius: 12px;
+    text-align: center;
+    background: white;
+}
+
+/* Host block */
+.host-box {
+    width: 80%;
+    margin: 20px auto;
+    padding: 18px 0;
+    border: 3px solid #5d5d5d;
+    border-radius: 6px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Game button */
+.game-btn {
+    width: 55%;
+    margin: 20px auto;
+    padding: 12px 0;
+    font-size: 20px;
+    border-radius: 40px;
+    border: 2px solid #5d5d5d;
+    background: white;
+}
+
+/* Settings panel */
+.settings-box {
+    width: 80%;
+    height: 240px;
+    margin: 35px auto;
+    padding-top: 110px;
+    font-size: 22px;
+    border: 3px solid #5d5d5d;
+    border-radius: 4px;
+}
+
+/* Launch */
+.launch-btn {
+    width: 65%;
+    margin: 30px auto;
+    padding: 20px 0;
+    font-size: 26px;
+    font-weight: 600;
+    border-radius: 40px;
+    border: 2px solid #5d5d5d;
+    background: white;
+}
+
+.inbox-container {
+    width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.inbox-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+.message-box {
+    border: 2px solid #5d5d5d;
+    border-radius: 8px;
+    padding: 40px;
+    font-size: 20px;
+    text-align: center;
+    background: #fafafa;
+}
+
 
