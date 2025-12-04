@@ -15,23 +15,23 @@ def register_routes(app):
     def forgot_password():
         return jsonify({"message": "password reset link sent!"})
     
-    @app.route('/api/home')
+    @app.route('/home')
     def home():
         return render_template("home.html")
     
-    @app.route('/api/inbox')
+    @app.route('/inbox')
     def inbox():
         return render_template("messages.html")
     
-    @app.route('/api/host')
+    @app.route('/host')
     def host():
         return render_template("host.html")
     
-    @app.route('/api/search')
+    @app.route('/search')
     def search():
         return jsonify({"message": "Search for a party!"})
     
-    @app.route('/api/settings')
+    @app.route('/settings')
     def settings():
         return jsonify({"message": "User settings page!"})
     
