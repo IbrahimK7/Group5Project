@@ -1,28 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- CSS Style sheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+          rel="stylesheet" 
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
+          crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
+            crossorigin="anonymous">
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <header>
-        <h1>Edit Profile</h1>
-    </header>
-    <main>
-        <form action="/update-profile" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">PlatformName</span>
+            <div class="ms-auto d-flex gap-4">
+                <span>Home</span>
+                <span>Profile</span>
+                <span>Host</span>
+                <span>Search</span>
+            </div>
+        </div>
+    </nav>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+    <!-- Page title -->
+    <h1 class="page-title">Edit Profile</h1>
 
-            <label for="bio">Bio:</label>
-            <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
+    <!-- Edit profile form -->
+    <div class="form-box">
+        <form>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter new username">
+            </div>
 
-            <button type="submit">Save Changes</button>
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio:</label>
+                <textarea class="form-control" id="bio" rows="3" placeholder="Tell others about yourself"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="avatar" class="form-label">Profile Picture:</label>
+                <input type="file" class="form-control" id="avatar">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-main">Save Changes</button>
         </form>
-    </main>
+    </div>
 </body>
 </html>

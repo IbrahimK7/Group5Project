@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- CSS Style sheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+          rel="stylesheet" 
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
+          crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
+            crossorigin="anonymous">
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Profiles</title>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <span class="brand">PlatformName</span>
-            <div class="nav-links">
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">PlatformName</span>
+            <div class="ms-auto d-flex gap-4">
                 <span>Home</span>
                 <span>Party</span>
                 <span>Messages</span>
@@ -19,21 +34,23 @@
         </div>
     </nav>
 
-    <div class="content">
-        <h1>Player Profiles</h1>
+    <!-- Page title -->
+    <h1 class="page-title">Player Profiles</h1>
 
+    <!-- Player cards -->
+    <div class="container">
         <div class="player-card">
-            <img src="avatar1.png" alt="Player 1">
+            <img src="avatar1.png" alt="Player One">
             <h3>PlayerOne</h3>
             <p>Level 45 | Likes RPG Games</p>
-            <a href="expanded-player-profile.html">View Profile</a>
+            <a href="expanded-player-profile.html" class="btn btn-primary mt-2">View Profile</a>
         </div>
 
         <div class="player-card">
-            <img src="avatar2.png" alt="Player 2">
+            <img src="avatar2.png" alt="GamerGirl">
             <h3>GamerGirl</h3>
             <p>Level 32 | Likes FPS Games</p>
-            <a href="expanded-player-profile.html">View Profile</a>
+            <a href="expanded-player-profile.html" class="btn btn-primary mt-2">View Profile</a>
         </div>
     </div>
 </body>
