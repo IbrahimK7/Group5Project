@@ -1,15 +1,29 @@
 from flask import jsonify, render_template
+from flask import request, redirect
+from models.login_model import LoginModel
 import os
+
+login_model = LoginModel()
 
 def register_routes(app):
     @app.route('/api/hello')
     def hello():
         return jsonify({"message": "Hello from Flask!"})
     
-    @app.route('/login')
-    def login ():
-        return render_template("login.html")
-        # return jsonify({"message": "you have logged in!"})
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            email = request.form.get('email')
+            password = request.form.get('password')
+
+            user = login_model.authenticate(email, password)
+
+            if user:
+                return redirect('/home')   # success → go to home page
+            else:
+                return render_template("home.html", error="Invalid email or password")
+
+        return render_template("login.html") 
     
     @app.route('/api/forgot-password')
     def forgot_password():

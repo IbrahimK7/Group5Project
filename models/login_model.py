@@ -1,34 +1,71 @@
-USERS = [
-    {
-        'id': 1,
-        'username': 'ibrahim',
-        'password': 'nopassword',
-        'email': 'ibrahim@google.com'
-    },
-    {
-        'id': 2,
-        'username': 'tyler',
-        'password': 'nopassword1',
-        'email': 'tyler@google.com'
-    },
-    {
-        'id': 3,
-        'username': 'marin',
-        'password': 'nopassword2',
-        'email': 'marin@google.com'
-    }
-]
+from pymongo import MongoClient
+from bson import ObjectId
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-def validate_login(username, password):
-    for user in USERS:
-        if user['username'] == username and user['password'] == password:
-            return True
-    return False
-
-def get_user_by_username(username):
-    for user in USERS:
-        if user['username'] == username:
+class LoginModel:
+    def __init__(self):
+        mongodb_uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
+        database_name = os.getenv('DATABASE_NAME', 'users_db')
+        
+        self.client = MongoClient(mongodb_uri)
+        self.db = self.client[database_name]
+        self.collection = self.db['users']
+    
+    def create_user(self, user_data):
+        """Create a new user"""
+        result = self.collection.insert_one(user_data)
+        return str(result.inserted_id)
+    
+    def get_all_users(self):
+        """Get all users"""
+        users = list(self.collection.find({}))
+        for user in users:
+            user['_id'] = str(user['_id'])
+        return users
+    
+    def get_user_by_id(self, user_id):
+        """Get a user by ID"""
+        try:
+            user = self.collection.find_one({'_id': ObjectId(user_id)})
+            if user:
+                user['_id'] = str(user['_id'])
             return user
-    return None     
+        except:
+            return None
+    
+    def update_user(self, user_id, user_data):
+        """Update a user by ID"""
+        try:
+            user_data.pop('_id', None)
+            result = self.collection.update_one(
+                {'_id': ObjectId(user_id)},
+                {'$set': user_data}
+            )
+            return result.modified_count > 0
+        except:
+            return False
+    
+    def delete_user(self, user_id):
+        """Delete a user by ID"""
+        try:
+            result = self.collection.delete_one({'_id': ObjectId(user_id)})
+            return result.deleted_count > 0
+        except:
+            return False
+
+    def close_connection(self):
+        """Close MongoDB connection"""
+        self.client.close()
+
+    def authenticate(self, email, password):
+        user = self.collection.find_one({
+            "email": email,
+            "password": password
+        })
+        if user:
+            user["_id"] = str(user["_id"])
+        return user
 
