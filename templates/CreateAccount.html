@@ -2,15 +2,26 @@
 <html lang="en">
 
 <head>
+    <!-- CSS Style sheet-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Bootsrap link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+        </script>
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create Account</title>
+
 </head>
+
 
 <body>
     <form align="center">
-
-
         <div>
             <label for="Gtag">Name:</label>
             <input type="text" id="Gtag" name="Gtag" placeholder="Gamertag">
@@ -39,7 +50,7 @@
         <br>
 
         <div>
-            <input type="submit">
+            <button type="button" class="btn btn-primary">Create Account</button>
         </div>
     </form>
 </body>
