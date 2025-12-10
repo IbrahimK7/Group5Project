@@ -19,7 +19,7 @@ def register_routes(app):
             user = login_model.authenticate(email, password)
 
             if user:
-                return redirect('/home')   # success → go to home page
+                return redirect('/home')  
             else:
                 return render_template("home.html", error="Invalid email or password")
 

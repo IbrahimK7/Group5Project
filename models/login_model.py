@@ -19,12 +19,6 @@ class LoginModel:
         result = self.collection.insert_one(user_data)
         return str(result.inserted_id)
     
-    def get_all_users(self):
-        """Get all users"""
-        users = list(self.collection.find({}))
-        for user in users:
-            user['_id'] = str(user['_id'])
-        return users
     
     def get_user_by_id(self, user_id):
         """Get a user by ID"""
