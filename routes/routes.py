@@ -1,9 +1,14 @@
 from flask import jsonify, render_template
 from flask import request, redirect
 from models.login_model import LoginModel
+from models.parties import PartyModel
+from models.whats_hot import WhatsHotModel
+
 import os
 
 login_model = LoginModel()
+party_model = PartyModel()
+whats_hot_model = WhatsHotModel()
 
 def register_routes(app):
     @app.route('/api/hello')
@@ -60,3 +65,27 @@ def register_routes(app):
     @app.route('/api/rate')
     def rate():
         return jsonify({"message": "Rate your experience!"})
+
+
+    @app.route('/parties', methods=["GET"])
+    def get_parties():
+        parties = list(party_model.collection.find())
+
+        # Convert Mongo ObjectId to string for easy usage in JSON
+        for party in parties:
+            party["_id"] = str(party["_id"])
+
+        return render_template("joinparty.html")
+    
+    @app.route('/api/parties')
+    def api_parties():
+        parties = list(party_model.collection.find())
+        for party in parties:
+            party['_id'] = str(party['_id'])
+        return jsonify(parties)
+    
+
+
+    @app.route("/api/whats-hot")
+    def get_whats_hot():
+        return jsonify(whats_hot_model.get_all_games())
