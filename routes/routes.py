@@ -84,8 +84,6 @@ def register_routes(app):
             party['_id'] = str(party['_id'])
         return jsonify(parties)
     
-
-
-    @app.route("/api/whats-hot")
-    def get_whats_hot():
+    @app.route('/api/whats-hot')
+    def api_whats_hot():
         return jsonify(whats_hot_model.get_all_games())
