@@ -1,5 +1,7 @@
 from flask import jsonify, render_template
 from flask import request, redirect
+from models.CreateAccountModel import CreateAccountModel
+from models.ProfileModel import ProfileModel
 from models.login_model import LoginModel
 from models.parties import PartyModel
 from models.whats_hot import WhatsHotModel
@@ -9,6 +11,8 @@ import os
 login_model = LoginModel()
 party_model = PartyModel()
 whats_hot_model = WhatsHotModel()
+create_account_model = CreateAccountModel()
+profile_model = ProfileModel()
 
 def register_routes(app):
     @app.route('/api/hello')
@@ -84,6 +88,14 @@ def register_routes(app):
             party['_id'] = str(party['_id'])
         return jsonify(parties)
     
+<<<<<<< HEAD
     @app.route('/api/whats-hot')
     def api_whats_hot():
         return jsonify(whats_hot_model.get_all_games())
+=======
+
+
+    @app.route("/api/whats-hot")
+    def get_whats_hot():
+        return jsonify(whats_hot_model.get_all_games())
+>>>>>>> 2b65b3787af436b116f144dee6456414a92b15fe
