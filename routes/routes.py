@@ -1,5 +1,7 @@
 from flask import jsonify, render_template
 from flask import request, redirect
+from models.CreateAccountModel import CreateAccountModel
+from models.ProfileModel import ProfileModel
 from models.login_model import LoginModel
 from models.parties import PartyModel
 from models.whats_hot import WhatsHotModel
@@ -9,6 +11,8 @@ import os
 login_model = LoginModel()
 party_model = PartyModel()
 whats_hot_model = WhatsHotModel()
+create_account_model = CreateAccountModel()
+profile_model = ProfileModel()
 
 def register_routes(app):
     @app.route('/api/hello')
