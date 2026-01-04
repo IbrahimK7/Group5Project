@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CSS Style sheet -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Bootstrap link -->
@@ -21,42 +20,40 @@
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">PlatformName</span>
-            <div class="ms-auto d-flex gap-4">
-                <span>Home</span>
-                <span>Profile</span>
-                <span>Host</span>
-                <span>Search</span>
-            </div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">PlatformName</span>
+        <div class="ms-auto d-flex gap-4">
+            <a href="/home" class="text-white">Home</a>
+            <a href="/playerprofiles" class="text-white">Profile</a>
+            <a href="/host" class="text-white">Host</a>
+            <a href="/search" class="text-white">Search</a>
         </div>
-    </nav>
-
-    <!-- Page title -->
-    <h1 class="page-title">Edit Profile</h1>
-
-    <!-- Edit profile form -->
-    <div class="form-box">
-        <form>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username:</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter new username">
-            </div>
-
-            <div class="mb-3">
-                <label for="bio" class="form-label">Bio:</label>
-                <textarea class="form-control" id="bio" rows="3" placeholder="Tell others about yourself"></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="avatar" class="form-label">Profile Picture:</label>
-                <input type="file" class="form-control" id="avatar">
-            </div>
-
-            <button type="submit" class="btn btn-success btn-main">Save Changes</button>
-        </form>
     </div>
+</nav>
+
+<h1 class="page-title">Edit Profile</h1>
+
+<div class="form-box">
+    <form method="POST" action="/api/update-profile">
+
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Bio</label>
+            <textarea class="form-control" name="bio" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Save Changes
+        </button>
+
+    </form>
+</div>
+
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CSS Style sheet -->
+
     <link rel="stylesheet" href="style.css">
 
     <!-- Bootstrap link -->
@@ -21,37 +21,46 @@
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">PlatformName</span>
-            <div class="ms-auto d-flex gap-4">
-                <span>Home</span>
-                <span>Party</span>
-                <span>Messages</span>
-                <span>Profile</span>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Page title -->
-    <h1 class="page-title">Player Profiles</h1>
-
-    <!-- Player cards -->
-    <div class="container">
-        <div class="player-card">
-            <img src="avatar1.png" alt="Player One">
-            <h3>PlayerOne</h3>
-            <p>Level 45 | Likes RPG Games</p>
-            <a href="expanded-player-profile.html" class="btn btn-primary mt-2">View Profile</a>
-        </div>
-
-        <div class="player-card">
-            <img src="avatar2.png" alt="GamerGirl">
-            <h3>GamerGirl</h3>
-            <p>Level 32 | Likes FPS Games</p>
-            <a href="expanded-player-profile.html" class="btn btn-primary mt-2">View Profile</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">PlatformName</span>
+        <div class="ms-auto d-flex gap-4">
+            <a href="/home" class="text-white">Home</a>
+            <a href="/parties" class="text-white">Party</a>
+            <a href="/inbox" class="text-white">Messages</a>
+            <a href="/playerprofiles" class="text-white">Profile</a>
         </div>
     </div>
+</nav>
+
+<h1 class="page-title">Player Profiles</h1>
+
+<div id="players" class="container mt-4"></div>
+
+<div class="container">
+    <div class="player-card">
+        <img src="{{ url_for('static', filename='avatar1.png') }}" alt="Player One">
+        <h3>PlayerOne</h3>
+        <p>Level 45 | Likes RPG Games</p>
+        <a href="#" class="btn btn-primary mt-2">View Profile</a>
+    </div>
+
+    <div class="player-card">
+        <img src="{{ url_for('static', filename='avatar2.png') }}" alt="GamerGirl">
+        <h3>GamerGirl</h3>
+        <p>Level 32 | Likes FPS Games</p>
+        <a href="#" class="btn btn-primary mt-2">View Profile</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const container = document.getElementById("players");
+  container.innerHTML =
+    "<p><strong>Parties loaded from API:</strong> DOM manipulation works</p>";
+});
+</script>
+
 </body>
 </html>
