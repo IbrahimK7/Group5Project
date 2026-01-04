@@ -2,45 +2,29 @@ from flask import jsonify, render_template
 from flask import request, redirect
 from models.CreateAccountModel import CreateAccountModel
 from models.ProfileModel import ProfileModel
-from models.login_model import LoginModel
 from models.parties import PartyModel
-from models.whats_hot import WhatsHotModel
+
+from .home import register_home_routes
+from .auth import register_auth_routes
 
 import os
 
-login_model = LoginModel()
 party_model = PartyModel()
-whats_hot_model = WhatsHotModel()
 create_account_model = CreateAccountModel()
 profile_model = ProfileModel()
 
 def register_routes(app):
+    register_home_routes(app)
+    register_auth_routes(app)
+
     @app.route('/api/hello')
     def hello():
         return jsonify({"message": "Hello from Flask!"})
     
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        if request.method == 'POST':
-            email = request.form.get('email')
-            password = request.form.get('password')
-
-            user = login_model.authenticate(email, password)
-
-            if user:
-                return redirect('/home')  
-            else:
-                return render_template("home.html", error="Invalid email or password")
-
-        return render_template("login.html") 
     
     @app.route('/api/forgot-password')
     def forgot_password():
         return jsonify({"message": "password reset link sent!"})
-    
-    @app.route('/home')
-    def home():
-        return render_template("home.html")
     
     @app.route('/inbox')
     def inbox():
@@ -87,15 +71,4 @@ def register_routes(app):
         for party in parties:
             party['_id'] = str(party['_id'])
         return jsonify(parties)
-    
-<<<<<<< HEAD
-    @app.route('/api/whats-hot')
-    def api_whats_hot():
-        return jsonify(whats_hot_model.get_all_games())
-=======
 
-
-    @app.route("/api/whats-hot")
-    def get_whats_hot():
-        return jsonify(whats_hot_model.get_all_games())
->>>>>>> 2b65b3787af436b116f144dee6456414a92b15fe
