@@ -92,20 +92,19 @@ class ProfileModel:
     # Update: updateOne({})
     # -----------------------
     def update_profile(self, user_id, profile_data):
-        try:
-            query = {"user_id": ObjectId(user_id)}
-        except Exception:
-            query = {"user_id": user_id}
-        result = self.collection.update_one(query, {"$set": profile_data})
-        if result.modified_count > 0:
-            return {"success": True, "message": "Profile updated successfully."}
-        else:
-            # if matched but not modified, indicate that
-            if result.matched_count > 0:
-                return {"success": False, "message": "No changes made to the profile."}
-            return {"success": False, "message": "Profile not found."}
+        
 
-    # -----------------------
+        result = self.collection.update_one(
+            {"user_id": user_id},
+            {"$set": profile_data}
+        )
+        if result.matched_count > 0:
+            return {"success": True}
+        return {"success": False, "message": "Profile not found."}
+
+        
+
+        
     # Delete: deleteOne({})
     # -----------------------
     def delete_profile(self, user_id):

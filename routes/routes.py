@@ -71,3 +71,23 @@ def register_routes(app):
         for party in parties:
             party['_id'] = str(party['_id'])
         return jsonify(parties)
+    @app.route('/editprofile')
+    def edit_profile():
+        return render_template('editprofile.html')
+
+    @app.route('/playerprofiles')
+    def player_profiles():
+        return render_template('playerprofiles.html')
+
+    @app.route('/api/update-profile', methods=['POST'])
+    
+    def update_profile():
+        username = request.form.get('username')
+        bio = request.form.get('bio')
+
+       
+
+        result = profile_model.update_profile(username, {"bio": bio})
+        
+
+        return redirect('/home')
