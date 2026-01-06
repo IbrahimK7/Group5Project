@@ -24,7 +24,6 @@ def register_routes(app):
     register_party_routes(app)
 
     
-    
     @app.route('/api/forgot-password')
     def forgot_password():
         return jsonify({"message": "password reset link sent!"})
@@ -54,23 +53,6 @@ def register_routes(app):
     def rate():
         return jsonify({"message": "Rate your experience!"})
 
-
-    @app.route('/parties', methods=["GET"])
-    def get_parties():
-        parties = list(party_model.collection.find())
-
-        # Convert Mongo ObjectId to string for easy usage in JSON
-        for party in parties:
-            party["_id"] = str(party["_id"])
-
-        return render_template("joinparty.html")
-    
-    @app.route('/api/parties')
-    def api_parties():
-        parties = list(party_model.collection.find())
-        for party in parties:
-            party['_id'] = str(party['_id'])
-        return jsonify(parties)
     @app.route('/editprofile')
     def edit_profile():
         return render_template('editprofile.html')
