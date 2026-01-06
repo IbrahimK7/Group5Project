@@ -54,3 +54,40 @@ def register_routes(app):
     def rate():
         return jsonify({"message": "Rate your experience!"})
 
+
+    @app.route('/parties', methods=["GET"])
+    def get_parties():
+        parties = list(party_model.collection.find())
+
+        # Convert Mongo ObjectId to string for easy usage in JSON
+        for party in parties:
+            party["_id"] = str(party["_id"])
+
+        return render_template("joinparty.html")
+    
+    @app.route('/api/parties')
+    def api_parties():
+        parties = list(party_model.collection.find())
+        for party in parties:
+            party['_id'] = str(party['_id'])
+        return jsonify(parties)
+    @app.route('/editprofile')
+    def edit_profile():
+        return render_template('editprofile.html')
+
+    @app.route('/playerprofiles')
+    def player_profiles():
+        return render_template('playerprofiles.html')
+
+    @app.route('/api/update-profile', methods=['POST'])
+    
+    def update_profile():
+        username = request.form.get('username')
+        bio = request.form.get('bio')
+
+       
+
+        result = profile_model.update_profile(username, {"bio": bio})
+        
+
+        return redirect('/home')
