@@ -8,11 +8,11 @@ load_dotenv()
 class PartyModel:
     def __init__(self):
         mongodb_uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
-        database_name = os.getenv('DATABASE_NAME', 'gamesDB')
+        database_name = "Group5Project" 
         
         self.client = MongoClient(mongodb_uri)
         self.db = self.client[database_name]
-        self.collection = self.db['parties']
+        self.collection = self.db['Parties']
 
     def add_party(self, party_data):
         """

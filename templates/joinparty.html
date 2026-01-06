@@ -39,7 +39,29 @@
         <!-- Example of the page that will display the parties -->
     <div class="container mt-4">
         <h3>Available Parties</h3>
-        <div id="partyList"></div>  <!-- This is where the parties will appear -->
+        <div id="partyList">
+            {% if parties %}
+                {% for party in parties %}
+                <div class="card mb-3 p-3">
+                    <h5>{{ party.partyName }}</h5>
+                    <p>Game: {{ party.game }}</p>
+                    <p>Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}</p>
+
+                    {% if party.players %}
+                    <p class="mb-1"><strong>Players:</strong></p>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for player in party.players %}
+                        <span class="badge bg-light text-dark">{{ player }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No parties found.</p>
+            {% endif %}
+        </div>
+  <!-- This is where the parties will appear -->
     </div>
 
     <script src="{{ url_for('static', filename='js/parties.js') }}"></script>
