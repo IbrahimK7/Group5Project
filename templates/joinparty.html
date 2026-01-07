@@ -1,3 +1,6 @@
+<!-- DELETE OR COMMENT THIS LINE -->
+<!-- <script src="{{ url_for('static', filename='js/parties.js') }}"></script> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,65 +24,48 @@
 </head>
 
 <body>
-    <!-- Navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">PlatformName</span>
-            <div class="ms-auto d-flex gap-4">
-                <span>Home</span>
-                <span>Search</span>
-                <span>Host</span>
-                <span>Profile</span>
-            </div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+        <span class="navbar-brand text-white">PlatformName</span>
+        <div class="ms-auto d-flex gap-4">
+            <a href="/home" class="text-white">Home</a>
+            <a href="/playerprofiles" class="text-white">Profile</a>
+            <a href="/leaveparty" class="text-white">Leave Party</a>
         </div>
-    </nav>
-
-    <!-- Page title -->
-    <h1 class="page-title">Join a Party</h1>
-        <!-- Example of the page that will display the parties -->
-    <div class="container mt-4">
-        <h3>Available Parties</h3>
-        <div id="partyList">
-            {% if parties %}
-                {% for party in parties %}
-                <div class="card mb-3 p-3">
-                    <h5>{{ party.partyName }}</h5>
-                    <p>Game: {{ party.game }}</p>
-                    <p>Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}</p>
-
-                    {% if party.players %}
-                    <p class="mb-1"><strong>Players:</strong></p>
-                    <div class="d-flex flex-wrap gap-2">
-                        {% for player in party.players %}
-                        <span class="badge bg-light text-dark">{{ player }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            {% else %}
-                <p>No parties found.</p>
-            {% endif %}
-        </div>
-  <!-- This is where the parties will appear -->
     </div>
+</nav>
 
-    <script src="{{ url_for('static', filename='js/parties.js') }}"></script>
+<h1 class="page-title text-center mt-4">Join a Party</h1>
 
+<div class="container mt-4">
+    <h4>Available Parties</h4>
 
-    <!-- Join party form -->
-    <div class="form-box">
-        <form>
-            <div class="mb-3">
-                <label for="partyCode" class="form-label">Enter Party Code:</label>
-                <input type="text" class="form-control" id="partyCode" placeholder="e.g. ABC123">
+    {% if parties %}
+        {% for party in parties %}
+            <div class="card p-3 mb-3">
+                <h5>{{ party.partyName }}</h5>
+                <p>Game: {{ party.game }}</p>
+                <p>Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}</p>
             </div>
-            <button type="submit" class="btn btn-primary btn-main">Join</button>
-        </form>
+        {% endfor %}
+    {% else %}
+        <p>No parties available.</p>
+    {% endif %}
+</div>
 
-        <p class="mt-3 text-center">
-            Don't have a code? <a href="search.html">Find parties</a> to join!
-        </p>
-    </div>
+<div class="form-box mt-4">
+    <form method="POST" action="/api/join-party">
+        <div class="mb-3">
+            <label class="form-label">Party Code</label>
+            <input type="text" class="form-control" name="partyCode" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Join Party
+        </button>
+    </form>
+</div>
+
 </body>
 </html>
