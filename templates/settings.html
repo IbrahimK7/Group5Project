@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- CSS Style sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    >
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+      defer
+    ></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+  </head>
+
+  <body class="app-body page-settings">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+        <div class="ms-auto d-flex gap-4">
+          <a href="/home" class="nav-link text-white">Home</a>
+          <a href="/inbox" class="nav-link text-white">Inbox</a>
+          <a href="/host" class="nav-link text-white">Host</a>
+          <a href="/parties" class="nav-link text-white">Join</a>
+          <a href="/settings" class="nav-link text-white fw-semibold text-decoration-underline">Settings</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-4 py-lg-5 settings-center">
+      <header class="settings-header mb-4">
+        <h1 class="h3 mb-1">Settings</h1>
+        <p class="text-muted mb-0">Manage your account preferences.</p>
+      </header>
+
+      <div class="settings-grid">
+
+        <!-- Account -->
+        <section class="settings-card">
+          <div class="settings-card-head">
+            <div class="settings-card-title">Account</div>
+            <div class="text-muted small">Profile & login</div>
+          </div>
+          <div class="settings-card-body">
+            <div class="mb-3">
+              <label class="form-label" for="displayName">Display name</label>
+              <input class="form-control" id="displayName" type="text" placeholder="Your name">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-control" id="email" type="email" placeholder="you@example.com">
+            </div>
+
+            <button class="btn btn-outline-primary w-100" type="button" disabled>
+              Change password
+            </button>
+          </div>
+        </section>
+
+        <!-- Notifications -->
+        <section class="settings-card">
+          <div class="settings-card-head">
+            <div class="settings-card-title">Notifications</div>
+            <div class="text-muted small">Inbox alerts</div>
+          </div>
+          <div class="settings-card-body">
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" role="switch" id="notifMessages" checked>
+              <label class="form-check-label" for="notifMessages">Message notifications</label>
+            </div>
+
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" role="switch" id="notifInvites" checked>
+              <label class="form-check-label" for="notifInvites">Party invite notifications</label>
+            </div>
+
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="notifMarketing">
+              <label class="form-check-label" for="notifMarketing">Product updates</label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Appearance -->
+        <section class="settings-card">
+          <div class="settings-card-head">
+            <div class="settings-card-title">Appearance</div>
+            <div class="text-muted small">Theme</div>
+          </div>
+          <div class="settings-card-body">
+            <label class="form-label" for="themeSelect">Theme</label>
+            <select class="form-select mb-3" id="themeSelect" disabled>
+              <option selected>Light (default)</option>
+              <option>Dark</option>
+              <option>System</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- Privacy -->
+        <section class="settings-card">
+          <div class="settings-card-head">
+            <div class="settings-card-title">Privacy</div>
+            <div class="text-muted small">Visibility</div>
+          </div>
+          <div class="settings-card-body">
+            <label class="form-label" for="profileVisibility">Profile visibility</label>
+            <select class="form-select mb-3" id="profileVisibility">
+              <option selected>Public</option>
+              <option>Friends only</option>
+              <option>Private</option>
+            </select>
+
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="showOnlineStatus" checked>
+              <label class="form-check-label" for="showOnlineStatus">Show online status</label>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="settings-actions mt-4">
+        <button class="btn btn-primary btn-lg px-4" type="button" disabled>Save changes</button>
+        <button class="btn btn-outline-danger btn-lg px-4" type="button" disabled>Log out</button>
+      </div>
+    </main>
+  </body>
+</html>

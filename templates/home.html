@@ -1,65 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- CSS Style sheet-->
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <head>
+    <!-- CSS Style sheet-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-        <!-- Bootsrap link-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
-        crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
-        crossorigin="anonymous">
-        </script>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    >
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+      defer
+    ></script>
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+  </head>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home</title>
+  <!-- Add page-home to scope styles to THIS page only -->
+  <body class="app-body page-home">
 
-    </head>
+    <!-- Navbar (kept) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
 
-    <body>
-        <!-- This is the navigation bar at the top-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">PlatformName</span>
-                <div class="ms-auto d-flex gap-4">
-                    <a href="/home" class="nav-link text-black">Home</a>
-                    <a href="/inbox" class="nav-link text-black">Inbox</a>
-                    <a href="/host" class="nav-link text-black">Host</a>
-                    <a href="/parties" class="nav-link text-black">Join</a>
-                    <a href="/settings" class="nav-link text-back">Settings</a>
-                </div>
+        <div class="ms-auto d-flex gap-4">
+          <a href="/home" class="nav-link text-white">Home</a>
+          <a href="/inbox" class="nav-link text-white">Inbox</a>
+          <a href="/host" class="nav-link text-white">Host</a>
+          <a href="/parties" class="nav-link text-white">Join</a>
+          <a href="/settings" class="nav-link text-white">Settings</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-4 py-lg-5">
+
+      <!-- Hero -->
+      <header class="home-hero mb-4 mb-lg-5">
+        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+          <div>
+            <h1 class="display-6 fw-semibold mb-1">Home</h1>
+            <p class="text-muted mb-0">
+              Find parties fast — jump into what’s trending or pick up where you left off.
+            </p>
+          </div>
+
+          <!-- Optional search form (no JS needed; just redirects to /search?game=...) -->
+          <form class="home-hero-search" action="/search" method="get">
+            <div class="input-group">
+              <input
+                type="text"
+                name="game"
+                class="form-control"
+                placeholder="Search a game..."
+                aria-label="Search a game"
+              >
+              <button class="btn btn-primary" type="submit">Search</button>
             </div>
+          </form>
+        </div>
+      </header>
 
-        </nav>
-       
-       <!-- This is the main title --> 
-        <div class="title">
-            <h1 style="text-align: center;">
-                Home
-            </h1>
+      <!-- What's Hot -->
+      <section class="home-section mb-4 mb-lg-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <h2 class="h4 mb-1">What’s Hot</h2>
+            <p class="text-muted small mb-0">Trending games right now</p>
+          </div>
         </div>
 
-        <!-- This is the "What's Hot" section-->
-        <div class="whats-hot">
-            <h2>What's Hot</h2>
-            <p>Games</p>
-            <!-- Whats Hot list goes here -->
-            <div id="whatsHotList"></div>
-            <div class="row g-3" id="whatsHotGrid"></div>
-            <script src="{{ url_for('static', filename='js/whats_hot.js') }}"></script>
-        </div>
-       
-        <!-- This is the "Last-Played" section-->
-        <div class="last-played">
-            <h3>Last Played</h3>
+        <!-- JS fills this; DO NOT CHANGE id -->
+        <div class="row g-3 g-lg-4" id="whatsHotGrid"></div>
+      </section>
 
+      <!-- Last Played -->
+      <section class="home-section">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <h2 class="h4 mb-1">Last Played</h2>
+            <p class="text-muted small mb-0">Your recently played games</p>
+          </div>
         </div>
 
-        <script src="{{ url_for('static', filename='js/whats_hot.js') }}"></script>
-    </body>
+        <div class="home-empty">
+          <div class="home-empty-inner">
+            <div class="home-empty-icon">🎮</div>
+            <div>
+              <div class="fw-semibold">Nothing here yet</div>
+              <div class="text-muted small">
+                Once you join a party, your recent games will show up here.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Load JS ONCE (no changes needed) -->
+    <script src="{{ url_for('static', filename='js/whats_hot.js') }}"></script>
+  </body>
 </html>

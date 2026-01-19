@@ -1,10 +1,10 @@
 from utils import create_app
-from flask import jsonify
+from flask import jsonify, redirect
 
 app = create_app()
 
 def index():
-    return jsonify({"message": "Welcome to the demo Flask app. Visit /api/hello"}), 200
+    return redirect('/home')
 
 app.add_url_rule('/', 'index', index)
 

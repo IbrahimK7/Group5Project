@@ -23,6 +23,9 @@ def register_routes(app):
     register_inbox_routes(app)
     register_party_routes(app)
 
+    @app.route('/settings')
+    def settings_page():
+        return render_template("settings.html")
     
     @app.route('/api/forgot-password')
     def forgot_password():

@@ -1,0 +1,476 @@
+/* =========================
+   Global / App-wide styles
+   ========================= */
+
+.app-body {
+  background: #f6f8fb;
+}
+
+/* Navbar: keep consistent across the whole app */
+.navbar .nav-link {
+  opacity: 0.95;
+}
+.navbar .nav-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+/* Buttons can be global (optional) */
+.btn-primary {
+  border-radius: 12px;
+}
+.btn-sm {
+  border-radius: 10px;
+}
+
+/* =========================
+   Home page ONLY (Option A)
+   Everything here is scoped
+   ========================= */
+
+.page-home .home-hero {
+  background: linear-gradient(
+    180deg,
+    rgba(13, 110, 253, 0.12),
+    rgba(13, 110, 253, 0.04)
+  );
+  border: 1px solid rgba(13, 110, 253, 0.15);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.page-home .home-hero-search {
+  min-width: min(460px, 100%);
+}
+
+.page-home .home-section {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+/* IMPORTANT:
+   Your JS generates Bootstrap .card elements.
+   We only restyle cards on HOME, so no clashes elsewhere. */
+.page-home #whatsHotGrid .card {
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.page-home #whatsHotGrid .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+}
+
+.page-home .home-empty {
+  border: 1px dashed rgba(0, 0, 0, 0.16);
+  border-radius: 16px;
+  padding: 18px;
+  background: rgba(2, 6, 23, 0.02);
+}
+
+.page-home .home-empty-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-home .home-empty-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(13, 110, 253, 0.12);
+  border: 1px solid rgba(13, 110, 253, 0.18);
+}
+
+/* Responsive tweaks */
+@media (max-width: 991.98px) {
+  .page-home .home-hero {
+    padding: 16px;
+  }
+
+  .page-home .home-section {
+    padding: 16px;
+  }
+}
+
+/* =========================
+   Inbox page ONLY
+   ========================= */
+
+.page-inbox .inbox-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Panel container */
+.page-inbox .inbox-panel {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.page-inbox .inbox-panel-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(2, 6, 23, 0.02);
+}
+
+.page-inbox .inbox-panel-title {
+  font-weight: 700;
+}
+
+.page-inbox #messageBox {
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(13,110,253,0.05), rgba(255,255,255,0));
+}
+
+/* -------------------------
+   Your JS injects: .card.mb-2 > .card-body > (d-flex...) + p
+   We restyle ONLY these cards on the inbox page.
+   ------------------------- */
+
+.page-inbox #messageBox .card {
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.page-inbox #messageBox .card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.10);
+}
+
+.page-inbox #messageBox .card-body {
+  padding: 14px 16px;
+}
+
+/* Make sender row feel like a “header” */
+.page-inbox #messageBox .card-body .d-flex {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Sender name */
+.page-inbox #messageBox .card-body strong {
+  font-size: 0.98rem;
+  letter-spacing: 0.2px;
+}
+
+/* Message content */
+.page-inbox #messageBox .card-body p {
+  color: rgba(2, 6, 23, 0.78);
+  line-height: 1.35;
+}
+
+/* Badge polish (works with bg-success / bg-secondary from your JS) */
+.page-inbox #messageBox .badge {
+  border-radius: 999px;
+  padding: 0.45em 0.7em;
+  font-weight: 600;
+}
+
+/* Extra “unread” emphasis WITHOUT changing JS:
+   Unread badge = .bg-success (from your JS). We'll add a subtle ring. */
+.page-inbox #messageBox .badge.bg-success {
+  box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.12);
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .page-inbox #messageBox {
+    padding: 12px;
+  }
+  .page-inbox #messageBox .card-body {
+    padding: 12px 14px;
+  }
+}
+
+/* =========================
+   Login page ONLY
+   ========================= */
+
+.page-login {
+  min-height: 100vh;
+}
+
+/* Center everything nicely */
+.page-login .login-wrapper {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* Card */
+.page-login .login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+/* Branding */
+.page-login .login-brand {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page-login .login-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(13, 110, 253, 0.12);
+  border: 1px solid rgba(13, 110, 253, 0.18);
+  font-size: 1.6rem;
+}
+
+.page-login .login-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.page-login .login-subtitle {
+  font-size: 0.95rem;
+}
+
+/* Form */
+.page-login .login-form .form-control {
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.page-login .login-form .btn {
+  border-radius: 12px;
+}
+
+/* Divider */
+.page-login .login-divider {
+  position: relative;
+  margin: 18px 0;
+  text-align: center;
+}
+
+.page-login .login-divider::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.page-login .login-divider span {
+  position: relative;
+  background: #ffffff;
+  padding: 0 10px;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Links */
+.page-login .btn-link {
+  text-decoration: none;
+}
+.page-login .btn-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Host page ONLY
+   ========================= */
+
+.page-host .host-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header centered and slightly larger */
+.page-host .host-header {
+  text-align: center;
+  max-width: 820px;
+  margin-bottom: 32px;
+}
+
+.page-host .host-header h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.page-host .host-header p {
+  font-size: 1.05rem;
+}
+
+/* Main panel: bigger + more central */
+.page-host .host-panel {
+  width: 100%;
+  max-width: 820px; /* was 720px */
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.14);
+  overflow: hidden;
+}
+
+/* Header inside the card */
+.page-host .host-panel-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(2, 6, 23, 0.02);
+}
+
+.page-host .host-panel-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Body spacing increased */
+.page-host .host-panel-body {
+  padding: 26px;
+  display: grid;
+  gap: 22px;
+}
+
+.page-host .host-section .form-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Settings placeholder */
+.page-host .host-settings-box {
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  background: rgba(2, 6, 23, 0.02);
+  font-size: 0.98rem;
+}
+
+/* Launch button emphasis */
+.page-host .host-actions {
+  margin-top: 10px;
+}
+
+.page-host .host-actions .btn-lg {
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 14px;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .page-host .host-panel {
+    max-width: 100%;
+  }
+
+  .page-host .host-panel-body {
+    padding: 18px;
+  }
+}
+
+/* =========================
+   Settings page ONLY
+   ========================= */
+
+.page-settings .settings-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-settings .settings-header {
+  width: 100%;
+  max-width: 980px;
+  text-align: center;
+}
+
+.page-settings .settings-grid {
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.page-settings .settings-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.page-settings .settings-card-head {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(2, 6, 23, 0.02);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.page-settings .settings-card-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.page-settings .settings-card-body {
+  padding: 18px;
+}
+
+.page-settings .settings-card-body .form-control,
+.page-settings .settings-card-body .form-select {
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.page-settings .settings-actions {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .page-settings .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-settings .settings-actions {
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .page-settings .settings-actions .btn {
+    width: 100%;
+  }
+}
+
+

@@ -1,48 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- CSS Style sheet-->
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-        <!-- Bootsrap link-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
-        crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
-        crossorigin="anonymous">
-        </script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    >
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+      defer
+    ></script>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Messages</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+  </head>
 
-    </head>
+  <body class="app-body page-inbox">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+        <div class="ms-auto d-flex gap-4">
+          <a href="/home" class="nav-link text-white">Home</a>
+          <a href="/inbox" class="nav-link text-white fw-semibold text-decoration-underline">Inbox</a>
+          <a href="/host" class="nav-link text-white">Host</a>
+          <a href="/parties" class="nav-link text-white">Join</a>
+          <a href="/settings" class="nav-link text-white">Settings</a>
+        </div>
+      </div>
+    </nav>
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">PlatformName</span>
-                <div class="ms-auto d-flex gap-4">
-                    <a href="/home" class="nav-link text-black">Home</a>
-                    <a href="/inbox" class="nav-link text-black">Inbox</a>
-                    <a href="/host" class="nav-link text-black">Host</a>
-                    <a href="/parties" class="nav-link text-black">Join</a>
-                    <a href="/settings" class="nav-link text-back">Settings</a>
-                </div>
-            </div>
-        </nav> 
+    <main class="container py-4 py-lg-5">
+      <div class="inbox-header mb-3 mb-lg-4">
+        <div>
+          <h1 class="h3 mb-1">Inbox</h1>
+          <p class="text-muted mb-0">Your recent messages and party invites.</p>
+        </div>
+      </div>
 
-        <div class="inbox-container">
-            <h2 class="inbox-title">Inbox</h2>
-
-            <div class="message-box" id="messageBox">
-                <p>Loading messages...</p>
-            </div>
+      <section class="inbox-panel">
+        <div class="inbox-panel-head">
+          <div class="inbox-panel-title">Messages</div>
+          <div class="inbox-panel-meta text-muted small">Newest first</div>
         </div>
 
-        <script src="{{ url_for('static', filename='js/messages.js') }}"></script>
-        
-    </body>
+        <!-- JS fills this -->
+        <div class="message-box" id="messageBox">
+          <p class="text-muted m-0">Loading messages...</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/messages.js') }}"></script>
+  </body>
 </html>
