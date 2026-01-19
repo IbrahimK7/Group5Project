@@ -14,14 +14,7 @@ async function loadParties() {
             const card = document.createElement("div");
             card.className = "card mb-3 p-3";
 
-            card.innerHTML = `
-                <h5>${party.partyName}</h5>
-                <p>Game: ${party.game}</p>
-                <p>Players: ${party.currentPlayers}/${party.maxPlayers}</p>
-                <button class="btn btn-primary btn-sm">
-                    Join Party
-                </button>
-            `;
+            
 
             list.appendChild(card);
         });

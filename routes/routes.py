@@ -3,6 +3,8 @@ from flask import request, redirect
 from models.CreateAccountModel import CreateAccountModel
 from models.ProfileModel import ProfileModel
 from models.parties import PartyModel
+from pymongo import MongoClient
+
 
 
 from .home import register_home_routes
@@ -12,6 +14,10 @@ from .party_routes import register_party_routes
 
 
 import os
+mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+client = MongoClient(mongo_uri)
+db = client["user_database"]
+
 
 party_model = PartyModel()
 create_account_model = CreateAccountModel()
@@ -63,6 +69,16 @@ def register_routes(app):
     @app.route('/playerprofiles')
     def player_profiles():
         return render_template('playerprofiles.html')
+    
+    @app.route('/joinparty')
+    def joinparty_page():
+        parties = list(party_model.collection.find())
+        return render_template('joinparty.html', parties=parties)
+
+
+    @app.route('/leaveparty')
+    def leaveparty_page():
+        return render_template('Leaveparty.html')
 
     @app.route('/api/update-profile', methods=['POST'])
     
@@ -76,3 +92,34 @@ def register_routes(app):
         
 
         return redirect('/home')
+    
+    @app.route('/api/join-party', methods=['POST'])
+    def join_party():
+        db.player_stats.update_one(
+            {"user_id": "test_user"},
+            {"$set": {"party": "party_1"}},
+            upsert=True
+        )
+        return redirect('/playerprofiles')
+
+    @app.route('/api/leave-party', methods=['POST'])
+    def leave_party():
+        db.player_stats.delete_one({"user_id": "test_user"})
+        return redirect('/playerprofiles')
+
+    @app.route('/api/test-message')
+    def test_message():
+        db.messages.insert_one({
+            "from": "test_user",
+            "to": "other_user",
+            "text": "Hello"
+        })
+        return jsonify({"success": True})
+
+    @app.route('/api/test-rating')
+    def test_rating():
+        db.ratings.insert_one({
+            "player": "test_user",
+            "rating": 5
+        })
+        return jsonify({"success": True})
