@@ -1,11 +1,10 @@
-<!-- DELETE OR COMMENT THIS LINE -->
-<!-- <script src="{{ url_for('static', filename='js/parties.js') }}"></script> -->
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- CSS Style sheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
     <!-- Bootstrap link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
@@ -25,16 +24,19 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container-fluid">
-        <span class="navbar-brand text-white">PlatformName</span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+
         <div class="ms-auto d-flex gap-4">
-            <a href="/home" class="text-white">Home</a>
-            <a href="/playerprofiles" class="text-white">Profile</a>
-            <a href="/leaveparty" class="text-white">Leave Party</a>
+          <a href="/home" class="nav-link text-white">Home</a>
+          <a href="/inbox" class="nav-link text-white">Inbox</a>
+          <a href="/host" class="nav-link text-white">Host</a>
+          <a href="/parties" class="nav-link text-white">Join</a>
+          <a href="/settings" class="nav-link text-white">Settings</a>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
 <h1 class="page-title text-center mt-4">Join a Party</h1>
 
