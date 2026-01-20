@@ -8,7 +8,7 @@ async function loadParties() {
         const parties = await response.json();
 
         const list = document.getElementById("partyList");
-        list.innerHTML = "";  // Clear any existing content before appending new data
+        list.innerHTML = "";  
 
         parties.forEach(party => {
             const card = document.createElement("div");

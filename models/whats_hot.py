@@ -1,3 +1,4 @@
+import certifi
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
@@ -6,12 +7,19 @@ load_dotenv()
 
 class WhatsHotModel:
     def __init__(self):
-        mongodb_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
-        database_name = "Group5Project"   # ✅ correct DB
+        uri = os.getenv("MONGO_URI")
+        if not uri:
+            raise RuntimeError("MONGO_URI missing")
 
-        self.client = MongoClient(mongodb_uri)
-        self.db = self.client[database_name]
-        self.collection = self.db["whats_hot"]  # ✅ correct collection
+        self.client = MongoClient(
+            uri,
+            tls=True,
+            tlsCAFile=certifi.where(),
+            serverSelectionTimeoutMS=5000
+        )
+
+        self.db = self.client["Group5Project"]
+        self.collection = self.db["Whats_hot"]
 
     def get_all_games(self):
         games = list(self.collection.find())

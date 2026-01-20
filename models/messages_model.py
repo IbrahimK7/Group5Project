@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from bson import ObjectId
+import certifi
 import os
 from dotenv import load_dotenv
 
@@ -7,12 +8,23 @@ load_dotenv()
 
 class MessageModel:
     def __init__(self):
-        mongodb_uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
-        database_name = "Group5Project" 
+        uri = os.getenv("MONGO_URI")
+        if not uri:
+            raise RuntimeError("MONGO_URI missing")
 
-        self.client = MongoClient(mongodb_uri)
-        self.db = self.client[database_name]
-        self.collection = self.db['messages']  # <-- collection name in MongoDB
+        self.client = MongoClient(
+            uri,
+            tls=True,
+            tlsCAFile=certifi.where(),
+            serverSelectionTimeoutMS=5000
+        )
+
+        self.client.admin.command("ping")  # should now work
+        print("✅ Connected to Atlas")
+
+        self.db = self.client["Group5Project"]
+        self.collection = self.db["Messages"]
+
 
     def get_inbox_for_user(self, username: str):
         """Get messages received by a user (newest first)"""

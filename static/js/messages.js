@@ -1,7 +1,6 @@
 async function loadMessages() {
   const messageBox = document.getElementById("messageBox");
 
-  // DEMO user (later you can set this dynamically from login/session)
   const currentUser = "user001";
 
   try {

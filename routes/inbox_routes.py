@@ -12,7 +12,6 @@ def register_inbox_routes(app):
     
     @app.route('/api/messages', methods=['GET'])
     def api_messages():
-        # demo: /api/messages?user=user001
-        username = "user001"
+        username = request.args.get("user", "user001")
         messages = message_model.get_inbox_for_user(username)
-        return jsonify(messages)
+        return jsonify(messages), 200

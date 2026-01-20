@@ -1,7 +1,9 @@
 from utils import create_app
 from flask import jsonify, redirect
+import os
 
 app = create_app()
+
 
 def index():
     return redirect('/home')

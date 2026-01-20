@@ -1,3 +1,4 @@
+import certifi
 from pymongo import MongoClient
 from bson import ObjectId
 import os
@@ -7,12 +8,19 @@ load_dotenv()
 
 class PartyModel:
     def __init__(self):
-        mongodb_uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
-        database_name = "Group5Project" 
-        
-        self.client = MongoClient(mongodb_uri)
-        self.db = self.client[database_name]
-        self.collection = self.db['Parties']
+        uri = os.getenv("MONGO_URI")
+        if not uri:
+            raise RuntimeError("MONGO_URI missing")
+
+        self.client = MongoClient(
+            uri,
+            tls=True,
+            tlsCAFile=certifi.where(),
+            serverSelectionTimeoutMS=5000
+        )
+
+        self.db = self.client["Group5Project"]
+        self.collection = self.db["Parties"]
 
     def add_party(self, party_data):
         """

@@ -13,6 +13,8 @@ def create_app():
     )
     app.config.from_object("config.Config")
     # register routes from the routes module
+
+    
     from routes.routes import register_routes
     register_routes(app)
     return app
