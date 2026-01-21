@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class LoginModel:
     def __init__(self):
         uri = os.getenv("MONGO_URI")
@@ -22,13 +23,12 @@ class LoginModel:
 
         self.db = self.client["Group5Project"]
         self.collection = self.db["Users"]
-    
+
     def create_user(self, user_data):
         """Create a new user"""
         result = self.collection.insert_one(user_data)
         return str(result.inserted_id)
-    
-    
+
     def get_user_by_id(self, user_id):
         """Get a user by ID"""
         try:
@@ -38,7 +38,7 @@ class LoginModel:
             return user
         except:
             return None
-    
+
     def update_user(self, user_id, user_data):
         """Update a user by ID"""
         try:
@@ -50,7 +50,7 @@ class LoginModel:
             return result.modified_count > 0
         except:
             return False
-    
+
     def delete_user(self, user_id):
         """Delete a user by ID"""
         try:
@@ -58,10 +58,6 @@ class LoginModel:
             return result.deleted_count > 0
         except:
             return False
-
-    def close_connection(self):
-        """Close MongoDB connection"""
-        self.client.close()
 
     def authenticate(self, email, password):
         user = self.collection.find_one({
@@ -72,3 +68,57 @@ class LoginModel:
             user["_id"] = str(user["_id"])
         return user
 
+    def get_user_summary(self, user_id):
+        """Return selected user fields: _id, username, gamertag, email, rating, favourite_game, last_played_games"""
+        try:
+            proj = {
+                "username": 1,
+                "gamertag": 1,
+                "email": 1,
+                "rating": 1,
+                "favourite_game": 1,
+                "last_played_games": 1
+            }
+            user = self.collection.find_one({'_id': ObjectId(user_id)}, proj)
+            if user:
+                user['_id'] = str(user['_id'])
+            return user
+        except:
+            return None
+
+    def get_last_played_games(self, user_id):
+        """Return the last_played_games array for a user (empty list if not present)"""
+        try:
+            doc = self.collection.find_one({'_id': ObjectId(user_id)}, {
+                                           'last_played_games': 1})
+            if doc and 'last_played_games' in doc:
+                return doc['last_played_games']
+            return []
+        except:
+            return []
+
+    def get_field(self, user_id, field_name):
+        """Return a single field value for a user (or None if missing)"""
+        try:
+            doc = self.collection.find_one(
+                {'_id': ObjectId(user_id)}, {field_name: 1})
+            if doc and field_name in doc:
+                return doc[field_name]
+            return None
+        except:
+            return None
+
+    def get_user_by_email(self, email, include_password=False):
+        """Get user by email. By default excludes password unless include_password=True"""
+        try:
+            proj = {"password": 0} if not include_password else None
+            user = self.collection.find_one({"email": email}, proj)
+            if user:
+                user["_id"] = str(user["_id"])
+            return user
+        except:
+            return None
+
+    def close_connection(self):
+        """Close MongoDB connection"""
+        self.client.close()
