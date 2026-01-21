@@ -55,3 +55,15 @@ def register_auth_routes(app):
     def logout():
         session.clear()
         return redirect(url_for("login"))
+    
+    @app.route("/profile")
+    def profile():
+        if "user_id" not in session:
+            return redirect(url_for("login"))
+
+        user = login_model.get_user_by_id(session["user_id"])
+        if not user:
+            session.clear()
+            return redirect(url_for("login"))
+
+        return render_template("profile.html", user=user)

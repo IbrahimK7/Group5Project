@@ -96,7 +96,7 @@
 }
 
 /* =========================
-   Inbox page
+   Inbox (Conversation List)
    ========================= */
 
 .page-inbox .inbox-header {
@@ -104,6 +104,7 @@
   align-items: end;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 16px;
 }
 
 .page-inbox .inbox-panel {
@@ -128,61 +129,191 @@
   font-weight: 700;
 }
 
-.page-inbox #messageBox {
-  padding: 14px;
-  background: linear-gradient(180deg, rgba(13,110,253,0.05), rgba(255,255,255,0));
+/* Container for thread rows */
+.page-inbox .inbox-body {
+  padding: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 110, 253, 0.05),
+    rgba(255, 255, 255, 0)
+  );
 }
 
-.page-inbox #messageBox .card {
-  border-radius: 16px !important;
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-  overflow: hidden;
+/* Single conversation row */
+.page-inbox .thread-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+
+  text-decoration: none;
+  color: inherit;
+
   transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-.page-inbox #messageBox .card:hover {
+/* Space between rows */
+.page-inbox .thread-row + .thread-row {
+  margin-top: 10px;
+}
+
+/* Hover effect */
+.page-inbox .thread-row:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.10);
 }
 
-.page-inbox #messageBox .card-body {
-  padding: 14px 16px;
+/* Left side: name + preview */
+.page-inbox .thread-left {
+  min-width: 0;
 }
 
-.page-inbox #messageBox .card-body .d-flex {
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.page-inbox #messageBox .card-body strong {
+.page-inbox .thread-name {
+  font-weight: 700;
   font-size: 0.98rem;
+  margin-bottom: 2px;
   letter-spacing: 0.2px;
 }
 
-.page-inbox #messageBox .card-body p {
-  color: rgba(2, 6, 23, 0.78);
-  line-height: 1.35;
+.page-inbox .thread-preview {
+  font-size: 0.92rem;
+  color: rgba(2, 6, 23, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 520px;
 }
 
-.page-inbox #messageBox .badge {
+/* Right side: badge */
+.page-inbox .thread-right {
+  flex: 0 0 auto;
+}
+
+.page-inbox .badge {
   border-radius: 999px;
   padding: 0.45em 0.7em;
   font-weight: 600;
 }
 
-.page-inbox #messageBox .badge.bg-success {
+.page-inbox .badge.bg-success {
   box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.12);
 }
 
+/* Mobile tweaks */
 @media (max-width: 991.98px) {
-  .page-inbox #messageBox {
-    padding: 12px;
+  .page-inbox .inbox-body {
+    padding: 10px;
   }
-  .page-inbox #messageBox .card-body {
+
+  .page-inbox .thread-row {
     padding: 12px 14px;
   }
+
+  .page-inbox .thread-preview {
+    max-width: 260px;
+  }
+}
+
+/* =========================
+   Conversation page ONLY
+   ========================= */
+
+.page-conversation .conversation-panel {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+}
+
+.page-conversation .conversation-head {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  background: rgba(2, 6, 23, 0.02);
+}
+
+.page-conversation .conversation-title {
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.page-conversation .conversation-body {
+  height: min(60vh, 600px);
+  overflow-y: auto;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(13,110,253,0.05), rgba(255,255,255,0));
+}
+
+.page-conversation .conversation-compose {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+}
+
+.page-conversation .conversation-compose .form-control {
+  border-radius: 12px;
+}
+
+.page-conversation .conversation-compose .btn {
+  border-radius: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* =========================
+   Conversation bubbles
+   ========================= */
+
+.page-conversation .bubble-row {
+  display: flex;
+  margin: 10px 0;
+}
+
+.page-conversation .row-me {
+  justify-content: flex-end;
+}
+
+.page-conversation .row-them {
+  justify-content: flex-start;
+}
+
+.page-conversation .bubble {
+  max-width: min(520px, 85%);
+  border-radius: 16px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.page-conversation .bubble-me {
+  background: rgba(13,110,253,0.10);
+  border-color: rgba(13,110,253,0.18);
+}
+
+.page-conversation .bubble-them {
+  background: #ffffff;
+}
+
+.page-conversation .bubble-meta {
+  font-size: 0.78rem;
+  font-weight: 700;
+  opacity: 0.75;
+  margin-bottom: 4px;
+}
+
+.page-conversation .bubble-text {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: rgba(2, 6, 23, 0.85);
 }
 
 /* =========================

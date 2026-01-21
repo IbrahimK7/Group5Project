@@ -18,10 +18,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>messages</title>
+    <title>Conversation</title>
   </head>
 
-  <body class="app-body page-inbox">
+  <body class="app-body page-conversation">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
       <div class="container-fluid">
@@ -37,27 +37,46 @@
     </nav>
 
     <main class="container py-4 py-lg-5">
-      <!-- Header -->
-      <header class="inbox-header">
-        <div>
-          <h1 class="h3 mb-1">Inbox</h1>
-          <p class="text-muted mb-0">Your conversations.</p>
+      <section class="conversation-panel">
+        <!-- Header -->
+        <div class="conversation-head">
+          <div class="d-flex align-items-center gap-2">
+            <a href="/inbox" class="btn btn-sm btn-outline-secondary">← Back</a>
+            <div>
+              <div class="conversation-title">Conversation</div>
+              <div class="conversation-sub text-muted small" id="conversationWith">
+                Loading…
+              </div>
+            </div>
+          </div>
         </div>
-      </header>
 
-      <!-- Threads list -->
-      <section class="inbox-panel">
-        <div class="inbox-panel-head">
-          <div class="inbox-panel-title">Conversations</div>
+        <!-- Messages -->
+        <div class="conversation-body" id="chatMessages">
+          <div class="text-muted small text-center py-3">Loading messages…</div>
         </div>
 
-        <div class="inbox-body" id="threadList">
-          <div class="text-muted">Loading conversations…</div>
-        </div>
+        <!-- Composer -->
+        <form class="conversation-compose" id="messageForm">
+          <input
+            class="form-control"
+            id="messageInput"
+            type="text"
+            placeholder="Type a message…"
+            autocomplete="off"
+            required
+          >
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
       </section>
     </main>
 
-    <!-- New JS just for inbox threads -->
-    <script src="{{ url_for('static', filename='js/messages.js') }}"></script>
+    <!-- Thread id injected by Flask -->
+    <script>
+      const THREAD_ID = "{{ thread_id }}";
+    </script>
+
+    <!-- JS for this page -->
+    <script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
   </body>
 </html>

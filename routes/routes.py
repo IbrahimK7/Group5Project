@@ -1,8 +1,7 @@
 from flask import jsonify, render_template
 from flask import request, redirect
 from models.CreateAccountModel import CreateAccountModel
-from models.ProfileModel import ProfileModel
-from models.parties import PartyModel
+#from models.parties import PartyModel
 from pymongo import MongoClient
 
 
@@ -17,9 +16,9 @@ import os
 
 
 
-party_model = PartyModel()
+#party_model = PartyModel()
 create_account_model = CreateAccountModel()
-profile_model = ProfileModel()
+#profile_model = ProfileModel()
 
 def register_routes(app):
     register_home_routes(app)
@@ -48,9 +47,7 @@ def register_routes(app):
     def create_account():
         return jsonify({"message": "Create an account!"})
 
-    @app.route('/profile')
-    def profile():
-        return render_template('profile.html')
+
 
     @app.route('/api/rate')
     def rate():
@@ -64,16 +61,16 @@ def register_routes(app):
     def player_profiles():
         return render_template('playerprofiles.html')
     
-    @app.route('/joinparty')
-    def joinparty_page():
-        game = request.args.get("game")  # e.g. Valorant
+    # @app.route('/joinparty')
+    # def joinparty_page():
+    #     game = request.args.get("game")  # e.g. Valorant
 
-        if game:
-            parties = list(party_model.collection.find({"game": game}))
-        else:
-            parties = list(party_model.collection.find())
+    #     if game:
+    #         parties = list(party_model.collection.find({"game": game}))
+    #     else:
+    #         parties = list(party_model.collection.find())
 
-        return render_template("joinparty.html", parties=parties, selected_game=game)
+    #     return render_template("joinparty.html", parties=parties, selected_game=game)
 
 
 
@@ -83,40 +80,40 @@ def register_routes(app):
 
     from bson import ObjectId
 
-    @app.route('/api/update-profile', methods=['POST'])
-    def update_profile():
-    # TEMP: simulate logged-in user
-        current_username = "marin"
+    # @app.route('/api/update-profile', methods=['POST'])
+    # def update_profile():
+    # # TEMP: simulate logged-in user
+    #     current_username = "marin"
 
-        new_username = request.form.get('username')
-        bio = request.form.get('bio')
+    #     new_username = request.form.get('username')
+    #     bio = request.form.get('bio')
 
-        update_data = {}
+    #     update_data = {}
 
-        if new_username:
-            update_data["username"] = new_username
+    #     if new_username:
+    #         update_data["username"] = new_username
 
-        if bio is not None:
-            update_data["bio"] = bio
+    #     if bio is not None:
+    #         update_data["bio"] = bio
 
-        if update_data:
-            db.Users.update_one(
-                {"username": current_username},
-                {"$set": update_data}
-            )
+    #     if update_data:
+    #         db.Users.update_one(
+    #             {"username": current_username},
+    #             {"$set": update_data}
+    #         )
 
-        return redirect('/home')
+    #     return redirect('/home')
 
 
     
-    @app.route('/api/join-party', methods=['POST'])
-    def join_party():
-        db.player_stats.update_one(
-            {"user_id": "test_user"},
-            {"$set": {"party": "party_1"}},
-            upsert=True
-        )
-        return redirect('/playerprofiles')
+    # @app.route('/api/join-party', methods=['POST'])
+    # def join_party():
+    #     db.player_stats.update_one(
+    #         {"user_id": "test_user"},
+    #         {"$set": {"party": "party_1"}},
+    #         upsert=True
+    #     )
+    #     return redirect('/playerprofiles')
 
     
 
