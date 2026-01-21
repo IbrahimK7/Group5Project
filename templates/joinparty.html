@@ -1,71 +1,105 @@
-<!-- DELETE OR COMMENT THIS LINE -->
-<!-- <script src="{{ url_for('static', filename='js/parties.js') }}"></script> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- CSS Style sheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <!-- Bootstrap link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
-          crossorigin="anonymous">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
-            crossorigin="anonymous">
-    </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    defer
+  ></script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Party</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Party</title>
 </head>
 
-<body>
+<body class="app-body page-home">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
     <div class="container-fluid">
-        <span class="navbar-brand text-white">PlatformName</span>
-        <div class="ms-auto d-flex gap-4">
-            <a href="/home" class="text-white">Home</a>
-            <a href="/playerprofiles" class="text-white">Profile</a>
-            <a href="/leaveparty" class="text-white">Leave Party</a>
-        </div>
+      <span class="navbar-brand text-white">PlatformName</span>
+      <div class="ms-auto d-flex gap-4">
+        <a href="/home" class="nav-link text-white">Home</a>
+        <a href="/playerprofiles" class="nav-link text-white">Profile</a>
+        <a href="/leaveparty" class="nav-link text-white">Leave Party</a>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<h1 class="page-title text-center mt-4">Join a Party</h1>
+  <main class="container py-4 py-lg-5">
 
-<div class="container mt-4">
-    <h4>Available Parties</h4>
+    <!-- PAGE HEADER -->
+    <header class="mb-4">
+      <h1 class="display-6 fw-semibold mb-1">Join a Party</h1>
 
-    {% if parties %}
-        {% for party in parties %}
-            <div class="card p-3 mb-3">
-                <h5>{{ party.partyName }}</h5>
-                <p>Game: {{ party.game }}</p>
-                <p>Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}</p>
+      {% if selected_game %}
+        <p class="text-muted">
+          Showing parties for <strong>{{ selected_game }}</strong>
+        </p>
+      {% else %}
+        <p class="text-muted">
+          Showing all available parties
+        </p>
+      {% endif %}
+    </header>
+
+    <!-- PARTIES GRID -->
+    <section class="home-section">
+      <div class="row g-3 g-lg-4">
+
+        {% if parties %}
+          {% for party in parties %}
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+
+                  <h5 class="card-title">{{ party.partyName }}</h5>
+
+                  <p class="text-muted mb-1">
+                    Game: {{ party.game }}
+                  </p>
+
+                  <p class="text-muted mb-3">
+                    Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}
+                  </p>
+
+                  <form method="POST" action="/api/join-party" class="mt-auto">
+                    <input type="hidden" name="party_id" value="{{ party._id }}">
+                    <button class="btn btn-primary w-100">
+                      Join Party
+                    </button>
+                  </form>
+
+                </div>
+              </div>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>No parties available.</p>
-    {% endif %}
-</div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12">
+            <div class="home-empty">
+              <div class="home-empty-inner">
+                <div class="home-empty-icon">🎮</div>
+                <div>
+                  <div class="fw-semibold">No parties available</div>
+                  <div class="text-muted small">
+                    Try another game or come back later.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
 
-<div class="form-box mt-4">
-    <form method="POST" action="/api/join-party">
-        <div class="mb-3">
-            <label class="form-label">Party Code</label>
-            <input type="text" class="form-control" name="partyCode" required>
-        </div>
+      </div>
+    </section>
 
-        <button type="submit" class="btn btn-primary w-100">
-            Join Party
-        </button>
-    </form>
-</div>
+  </main>
 
 </body>
 </html>

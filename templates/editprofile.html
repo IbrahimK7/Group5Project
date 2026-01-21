@@ -3,17 +3,13 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-
-    <!-- Bootstrap link -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
           rel="stylesheet" 
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
           crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" 
-            crossorigin="anonymous">
-    </script>
+            crossorigin="anonymous"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,34 +18,49 @@
 
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">PlatformName</span>
+        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
         <div class="ms-auto d-flex gap-4">
-            <a href="/home" class="text-white">Home</a>
-            <a href="/playerprofiles" class="text-white">Profile</a>
-            <a href="/host" class="text-white">Host</a>
-            <a href="/search" class="text-white">Search</a>
+            <a href="/home" class="text-white text-decoration-none">Home</a>
+            <a href="/playerprofiles" class="text-white text-decoration-none">Profile</a>
+            <a href="/host" class="text-white text-decoration-none">Host</a>
+            <a href="/search" class="text-white text-decoration-none">Search</a>
         </div>
     </div>
 </nav>
 
-<h1 class="page-title">Edit Profile</h1>
+<!-- PAGE TITLE -->
+<h1 class="page-title text-center mt-4">Edit Profile</h1>
 
-<div class="form-box">
+<!-- FORM -->
+<div class="form-box container mt-4" style="max-width: 500px;">
     <form method="POST" action="/api/update-profile">
 
         <div class="mb-3">
             <label class="form-label">Username</label>
-            <input type="text" class="form-control" name="username">
+            <input type="text" class="form-control" name="username" placeholder="New username">
         </div>
-
         <div class="mb-3">
             <label class="form-label">Bio</label>
-            <textarea class="form-control" name="bio" rows="3"></textarea>
+            <textarea class="form-control" name="bio" rows="3"
+                      placeholder="Tell us about yourself..."></textarea>
         </div>
 
-        <button type="submit" class="btn btn-success">
+        <!-- DELETE PROFILE OPTION -->  
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="delete_user" value="yes" id="deleteProfile">
+            <label class="form-check-label text-danger" for="deleteProfile">
+                Delete my profile
+            </label>
+            <div class="form-text text-danger">
+                This action will permanently remove your profile.
+            </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit" class="btn btn-success w-100">
             Save Changes
         </button>
 

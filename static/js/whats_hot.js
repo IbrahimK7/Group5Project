@@ -21,7 +21,7 @@ async function loadWhatsHot() {
             <h5 class="card-title mb-2">${escapeHtml(g.name ?? g.gameName ?? "Unknown")}</h5>
             ${g.year ? `<span class="badge bg-secondary align-self-start">${escapeHtml(g.year)}</span>` : ""}
             <div class="mt-auto pt-3">
-              <a class="btn btn-primary btn-sm w-100" href="/search?game=${encodeURIComponent(g.name ?? g.gameName ?? "")}">
+              <a class="btn btn-primary btn-sm w-100" href="/joinparty?game=${encodeURIComponent(g.name ?? g.gameName ?? "")}">
                 Find Parties
               </a>
             </div>

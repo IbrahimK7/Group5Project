@@ -10,8 +10,8 @@ class ProfileModel:
     def __init__(self):
         mongo_uri = os.getenv("MONGO_URI")
         self.client = MongoClient(mongo_uri)
-        self.db = self.client['user_database']
-        self.collection = self.db['profiles']
+        self.db = self.client['Group5Project']
+        self.collection = self.db['Users']
 
     def _serialize(self, doc):
         if not doc:
@@ -98,6 +98,7 @@ class ProfileModel:
             {"user_id": user_id},
             {"$set": profile_data}
         )
+        
         if result.matched_count > 0:
             return {"success": True}
         return {"success": False, "message": "Profile not found."}
@@ -105,40 +106,8 @@ class ProfileModel:
         
 
         
-    # Delete: deleteOne({})
-    # -----------------------
-    def delete_profile(self, user_id):
-        """
-        Delete a profile by user_id (accepts ObjectId or string). Tries several strategies.
-        """
-        # try user_id as ObjectId in user_id field
-        try:
-            res = self.collection.delete_one({"user_id": ObjectId(user_id)})
-            if res.deleted_count:
-                return {"success": True, "deleted": res.deleted_count}
-        except Exception:
-            pass
-
-        # try string match in user_id field
-        res = self.collection.delete_one({"user_id": user_id})
-        if res.deleted_count:
-            return {"success": True, "deleted": res.deleted_count}
-
-        # try user_id_str field
-        res = self.collection.delete_one({"user_id_str": str(user_id)})
-        if res.deleted_count:
-            return {"success": True, "deleted": res.deleted_count}
-
-        # try deleting by profile _id if user_id looks like ObjectId
-        if isinstance(user_id, str) and len(user_id) == 24 and ObjectId is not None:
-            try:
-                res = self.collection.delete_one({"_id": ObjectId(user_id)})
-                if res.deleted_count:
-                    return {"success": True, "deleted": res.deleted_count}
-            except Exception:
-                pass
-
-        return {"success": False, "deleted": 0, "message": "No profile deleted."}
+    
+    
 
 
 class Rank:
