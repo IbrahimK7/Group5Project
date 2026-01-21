@@ -19,8 +19,6 @@ class MessageModel:
             serverSelectionTimeoutMS=5000
         )
 
-        self.client.admin.command("ping")  # should now work
-        print("✅ Connected to Atlas")
 
         self.db = self.client["Group5Project"]
         self.collection = self.db["Messages"]
