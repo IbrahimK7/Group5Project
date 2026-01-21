@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- CSS Style sheet-->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
     <!-- Bootstrap -->
@@ -23,14 +23,12 @@
     <title>Home</title>
   </head>
 
-  <!-- Add page-home to scope styles to THIS page only -->
   <body class="app-body page-home">
 
-    <!-- Navbar (kept) -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
-
         <div class="ms-auto d-flex gap-4">
           <a href="/home" class="nav-link text-white">Home</a>
           <a href="/inbox" class="nav-link text-white">Inbox</a>
@@ -53,7 +51,6 @@
             </p>
           </div>
 
-          <!-- Optional search form (no JS needed; just redirects to /search?game=...) -->
           <form class="home-hero-search" action="/joinparty" method="get">
             <div class="input-group">
               <input
@@ -61,7 +58,6 @@
                 name="game"
                 class="form-control"
                 placeholder="Search a game..."
-                aria-label="Search a game"
               >
               <button class="btn btn-primary" type="submit">Search</button>
             </div>
@@ -78,35 +74,57 @@
           </div>
         </div>
 
-        <!-- JS fills this -->
         <div class="row g-3 g-lg-4" id="whatsHotGrid"></div>
       </section>
 
-      <!-- Last Played -->
+      <!-- Leaderboard + Games -->
       <section class="home-section">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <div>
-            <h2 class="h4 mb-1">Last Played</h2>
-            <p class="text-muted small mb-0">Your recently played games</p>
-          </div>
-        </div>
+        <div class="row g-3 g-lg-4">
 
-        <div class="home-empty">
-          <div class="home-empty-inner">
-            <div class="home-empty-icon">🎮</div>
-            <div>
-              <div class="fw-semibold">Nothing here yet</div>
-              <div class="text-muted small">
-                Once you join a party, your recent games will show up here.
+          <!-- Leaderboard Panel -->
+          <div class="col-12">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div>
+                    <h2 class="h5 mb-1">Leaderboard</h2>
+                    <p class="text-muted small mb-0">Top players across games</p>
+                  </div>
+                </div>
+
+                <div id="leaderboardPanel">
+                  <div class="text-muted small">Loading leaderboard…</div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Games Panel -->
+          <div class="col-12">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div>
+                    <h2 class="h5 mb-1">Games</h2>
+                    <p class="text-muted small mb-0">Browse available games</p>
+                  </div>
+                </div>
+
+                <div id="gamesPanel">
+                  <div class="text-muted small">Loading games…</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
     </main>
 
-    <!-- Load JS ONCE (no changes needed) -->
+    <!-- JS -->
     <script src="{{ url_for('static', filename='js/whats_hot.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home_panels.js') }}"></script>
+
   </body>
 </html>

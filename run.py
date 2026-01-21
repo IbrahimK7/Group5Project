@@ -8,7 +8,7 @@ app = create_app()
 
 
 def index():
-    return redirect('/home')
+    return redirect('/login')
 
 app.add_url_rule('/', 'index', index)
 

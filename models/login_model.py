@@ -4,9 +4,7 @@ from bson import ObjectId
 import os
 from dotenv import load_dotenv
 
-
 load_dotenv()
-
 
 class LoginModel:
     def __init__(self):
