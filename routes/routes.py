@@ -54,9 +54,9 @@ def register_routes(app):
     def create_account():
         return jsonify({"message": "Create an account!"})
 
-    @app.route('/api/profile')
+    @app.route('/profile')
     def profile():
-        return jsonify({"message": "This is your profile!"})
+        return render_template('profile.html')
 
     @app.route('/api/rate')
     def rate():

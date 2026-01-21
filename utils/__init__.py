@@ -14,6 +14,8 @@ def create_app():
     app.config.from_object("config.Config")
     # register routes from the routes module
 
+    app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key-change-me")
+
     
     from routes.routes import register_routes
     register_routes(app)

@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, session, url_for
 from models.login_model import LoginModel
 
 login_model = LoginModel()
@@ -14,10 +14,12 @@ def register_auth_routes(app):
             user = login_model.authenticate(email, password)
 
             if user:
+               
+                session["user_id"] = user["_id"]
+                session["username"] = user.get("username") 
                 return redirect('/home')
             else:
                 return render_template("login.html", error="Invalid email or password")
-
         return render_template("login.html")
 
 
@@ -48,3 +50,8 @@ def register_auth_routes(app):
             return redirect(url_for("login"))
 
         return render_template("createaccount.html")
+    
+    @app.route("/logout")
+    def logout():
+        session.clear()
+        return redirect(url_for("login"))
