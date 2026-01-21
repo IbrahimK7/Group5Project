@@ -14,9 +14,7 @@ from .party_routes import register_party_routes
 
 
 import os
-mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-client = MongoClient(mongo_uri)
-db = client["user_database"]
+
 
 
 party_model = PartyModel()
@@ -46,10 +44,6 @@ def register_routes(app):
     def search():
         return jsonify({"message": "Search for a party!"})
     
-    @app.route('/settings')
-    def settings():
-        return jsonify({"message": "User settings page!"})
-    
     @app.route('/api/create-account')
     def create_account():
         return jsonify({"message": "Create an account!"})
@@ -72,26 +66,48 @@ def register_routes(app):
     
     @app.route('/joinparty')
     def joinparty_page():
-        parties = list(party_model.collection.find())
-        return render_template('joinparty.html', parties=parties)
+        game = request.args.get("game")  # e.g. Valorant
+
+        if game:
+            parties = list(party_model.collection.find({"game": game}))
+        else:
+            parties = list(party_model.collection.find())
+
+        return render_template("joinparty.html", parties=parties, selected_game=game)
+
 
 
     @app.route('/leaveparty')
     def leaveparty_page():
         return render_template('Leaveparty.html')
 
+    from bson import ObjectId
+
     @app.route('/api/update-profile', methods=['POST'])
-    
     def update_profile():
-        username = request.form.get('username')
+    # TEMP: simulate logged-in user
+        current_username = "marin"
+
+        new_username = request.form.get('username')
         bio = request.form.get('bio')
 
-       
+        update_data = {}
 
-        result = profile_model.update_profile(username, {"bio": bio})
-        
+        if new_username:
+            update_data["username"] = new_username
+
+        if bio is not None:
+            update_data["bio"] = bio
+
+        if update_data:
+            db.Users.update_one(
+                {"username": current_username},
+                {"$set": update_data}
+            )
 
         return redirect('/home')
+
+
     
     @app.route('/api/join-party', methods=['POST'])
     def join_party():
@@ -102,24 +118,8 @@ def register_routes(app):
         )
         return redirect('/playerprofiles')
 
-    @app.route('/api/leave-party', methods=['POST'])
-    def leave_party():
-        db.player_stats.delete_one({"user_id": "test_user"})
-        return redirect('/playerprofiles')
+    
 
-    @app.route('/api/test-message')
-    def test_message():
-        db.messages.insert_one({
-            "from": "test_user",
-            "to": "other_user",
-            "text": "Hello"
-        })
-        return jsonify({"success": True})
+    
 
-    @app.route('/api/test-rating')
-    def test_rating():
-        db.ratings.insert_one({
-            "player": "test_user",
-            "rating": 5
-        })
-        return jsonify({"success": True})
+

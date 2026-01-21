@@ -1,9 +1,6 @@
-import certifi
 from pymongo import MongoClient
-from dotenv import load_dotenv
+import certifi
 import os
-
-load_dotenv()
 
 class WhatsHotModel:
     def __init__(self):
@@ -13,8 +10,8 @@ class WhatsHotModel:
 
         self.client = MongoClient(
             uri,
-            tls=True,
-            tlsCAFile=certifi.where(),
+            tls=uri.startswith("mongodb+srv"),
+            tlsCAFile=certifi.where() if uri.startswith("mongodb+srv") else None,
             serverSelectionTimeoutMS=5000
         )
 
@@ -24,5 +21,5 @@ class WhatsHotModel:
     def get_all_games(self):
         games = list(self.collection.find())
         for game in games:
-            game["_id"] = str(game["_id"])  # convert ObjectId for JSON
+            game["_id"] = str(game["_id"])
         return games
