@@ -1,6 +1,8 @@
+from dotenv import load_dotenv
+load_dotenv()   # <-- MUST be first
+
 from utils import create_app
-from flask import jsonify, redirect
-import os
+from flask import redirect
 
 app = create_app()
 
@@ -17,4 +19,3 @@ for rule in app.url_map.iter_rules():
 
 if __name__ == '__main__':
     app.run(debug=True)
-

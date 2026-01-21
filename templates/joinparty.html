@@ -1,17 +1,7 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
-=======
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- CSS Style sheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
->>>>>>> 3ee7088bc8de010dc51c85ec0236de29c43b01e7
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -30,7 +20,6 @@
 
 <body class="app-body page-home">
 
-<<<<<<< HEAD
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
     <div class="container-fluid">
@@ -42,21 +31,6 @@
       </div>
     </div>
   </nav>
-=======
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
-
-        <div class="ms-auto d-flex gap-4">
-          <a href="/home" class="nav-link text-white">Home</a>
-          <a href="/inbox" class="nav-link text-white">Inbox</a>
-          <a href="/host" class="nav-link text-white">Host</a>
-          <a href="/parties" class="nav-link text-white">Join</a>
-          <a href="/settings" class="nav-link text-white">Settings</a>
-        </div>
-      </div>
-    </nav>
->>>>>>> 3ee7088bc8de010dc51c85ec0236de29c43b01e7
 
   <main class="container py-4 py-lg-5">
 
@@ -97,9 +71,9 @@
 
                   <form method="POST" action="/api/join-party" class="mt-auto">
                     <input type="hidden" name="party_id" value="{{ party._id }}">
-                    <button class="btn btn-primary w-100">
+                    <a href="playerprofiles"button class="btn btn-primary w-100">
                       Join Party
-                    </button>
+                    </a>
                   </form>
 
                 </div>

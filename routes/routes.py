@@ -14,9 +14,7 @@ from .party_routes import register_party_routes
 
 
 import os
-mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-client = MongoClient(mongo_uri)
-db = client["Group5Project"]
+
 
 
 party_model = PartyModel()
@@ -92,7 +90,7 @@ def register_routes(app):
 
         new_username = request.form.get('username')
         bio = request.form.get('bio')
-        
+
         update_data = {}
 
         if new_username:
@@ -122,5 +120,6 @@ def register_routes(app):
 
     
 
-    from flask import jsonify, request
+    
+
 
