@@ -93,21 +93,29 @@
           </div>
         </section>
 
-        <!-- Appearance -->
+
+        <!-- Profile -->
         <section class="settings-card">
           <div class="settings-card-head">
-            <div class="settings-card-title">Appearance</div>
-            <div class="text-muted small">Theme</div>
+            <div class="settings-card-title">Profile</div>
+            <div class="text-muted small">Public information</div>
           </div>
           <div class="settings-card-body">
-            <label class="form-label" for="themeSelect">Theme</label>
-            <select class="form-select mb-3" id="themeSelect" disabled>
-              <option selected>Light (default)</option>
-              <option>Dark</option>
-              <option>System</option>
-            </select>
+            <p class="text-muted mb-3">
+              View or edit your public profile information.
+            </p>
+
+            <div class="d-grid gap-2">
+              <a href="/profile" class="btn btn-primary">
+                View Profile
+              </a>
+              <a href="/profile/edit" class="btn btn-outline-primary">
+                Edit Profile
+              </a>
+            </div>
           </div>
         </section>
+
 
         <!-- Privacy -->
         <section class="settings-card">
@@ -134,7 +142,10 @@
 
       <div class="settings-actions mt-4">
         <button class="btn btn-primary btn-lg px-4" type="button" disabled>Save changes</button>
-        <button class="btn btn-outline-danger btn-lg px-4" type="button" disabled>Log out</button>
+        <a href="/login" class="btn btn-outline-danger btn-lg px-4">
+          Log out
+        </a>
+
       </div>
     </main>
   </body>

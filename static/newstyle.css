@@ -473,4 +473,75 @@
   }
 }
 
+/* =========================
+   CREATE ACCOUNT PAGE
+   ========================= */
+
+.page-register {
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 110, 253, 0.08),
+    rgba(255, 255, 255, 1)
+  );
+}
+
+.page-register .register-wrapper {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.page-register .register-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.page-register .register-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.page-register .register-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: rgba(13, 110, 253, 0.12);
+  border: 1px solid rgba(13, 110, 253, 0.18);
+  font-size: 1.6rem;
+}
+
+.page-register .register-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.page-register .register-form .form-control {
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.page-register .register-form .btn {
+  border-radius: 12px;
+}
+
+.page-register .btn-link {
+  text-decoration: none;
+  color: #6c757d;
+}
+
+.page-register .btn-link:hover {
+  text-decoration: underline;
+}
+
 

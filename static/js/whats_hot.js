@@ -5,7 +5,7 @@ async function loadWhatsHot() {
   if (!grid) return;
 
   try {
-    const res = await fetch("/api/whats-hot");
+    const res = await fetch("/whats-hot");
     if (!res.ok) throw new Error(`API error ${res.status}`);
     const games = await res.json();
 

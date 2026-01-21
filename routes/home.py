@@ -9,6 +9,6 @@ def register_home_routes(app):
     def home():
         return render_template("home.html")
 
-    @app.route("/api/whats-hot")
+    @app.route("/whats-hot")
     def whats_hot():
         return jsonify(whats_hot_model.get_all_games())
