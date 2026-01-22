@@ -45,6 +45,10 @@ def register_routes(app):
     def search():
         return render_template("Search.html")
 
+    @app.route('/rate')
+    def rate_page():
+        return render_template("Rate.html")
+
     @app.route('/api/create-account')
     def create_account():
         return jsonify({"message": "Create an account!"})
@@ -146,7 +150,7 @@ def register_routes(app):
         }
         login_model.db["leftparties"].insert_one(leave_data)
 
-        return redirect('/home')
+        return redirect('/rate')
 
     @app.route('/api/join-party', methods=['POST'])
     def join_party():
