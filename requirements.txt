@@ -3,3 +3,4 @@ pytest==7.1.2
 pymongo==4.6.0
 python-dotenv==1.0.0
 certifi==2023.11.17
+bcrypt==4.1.2

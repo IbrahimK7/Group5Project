@@ -3,95 +3,269 @@
 
 <head>
     <!-- CSS Style sheet-->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <!-- Bootsrap link-->
+    <!-- Bootstrap link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+        defer>
         </script>
-
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
-
 </head>
 
-<!-- This is the navigation bar at the top-->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">PlatformName</span>
-        <div class="ms-auto d-flex gap-4">
-            <span>Home</span>
-            <span>Inbox</span>
-            <span>Host</span>
-            <span>Search</span>
-            <span>Settings</span>
+<body class="app-body page-home">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+            <div class="ms-auto d-flex gap-4">
+                <a href="/home" class="nav-link text-white">Home</a>
+                <a href="/inbox" class="nav-link text-white">Inbox</a>
+                <a href="/host" class="nav-link text-white">Host</a>
+                <a href="/parties" class="nav-link text-white">Join</a>
+                <a href="/search" class="nav-link text-white fw-semibold text-decoration-underline">Search</a>
+                <a href="/settings" class="nav-link text-white">Settings</a>
+            </div>
         </div>
-    </div>
+    </nav>
 
-</nav>
+    <main class="container py-4 py-lg-5">
 
-<!-- Game Search Bar-->
-<div class="topnav">
-    <input type="text" placeholder="Search Games...">
-</div>
-<br>
+        <!-- Page Header -->
+        <header class="mb-4 mb-lg-5">
+            <h1 class="display-6 fw-semibold mb-1">Search</h1>
+            <p class="text-muted mb-0">
+                Search for games and parties
+            </p>
+        </header>
 
-<!-- Party Card-->
-<div class="container">
-    <div class="card" style="width: 22rem;">
-        <div class="card-body">
-            <h5 class="card-title">Party 1</h5>
-            <p class="card-text">5/6 playes in party</p>
-            <a href="/join party">
-                <button>Join</button>
-            </a>
-        </div>
-    </div>
-</div>
-<br>
+        <!-- Search Bar -->
+        <section class="mb-4 mb-lg-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Search games or parties...">
+                        <button class="btn btn-primary" type="button" onclick="performSearch()">Search</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Party Card-->
-<div class="container">
-    <div class="card" style="width: 22rem;">
-        <div class="card-body">
-            <h5 class="card-title">Party 2</h5>
-            <p class="card-text">4/6 playes in party</p>
-            <a href="/join party">
-                <button>Join</button>
-            </a>
-        </div>
-    </div>
-</div>
-<br>
+        <!-- Games Section -->
+        <section class="mb-4 mb-lg-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h2 class="h4 mb-1">Games</h2>
+                    <p class="text-muted small mb-0">Available games</p>
+                </div>
+            </div>
+            <div class="row g-3 g-lg-4" id="gamesGrid">
+                <div class="text-muted small">Loading games…</div>
+            </div>
+        </section>
 
-<!-- Party Card-->
-<div class="container">
-    <div class="card" style="width: 22rem;">
-        <div class="card-body">
-            <h5 class="card-title">Party 3</h5>
-            <p class="card-text">1/6 playes in party</p>
-            <a href="/join party">
-                <button>Join</button>
-            </a>
-        </div>
-    </div>
-</div>
-<br>
+        <!-- Parties Section -->
+        <section class="mb-4 mb-lg-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h2 class="h4 mb-1">Active Parties</h2>
+                    <p class="text-muted small mb-0">Join a party</p>
+                </div>
+            </div>
+            <div class="row g-3 g-lg-4" id="partiesGrid">
+                <div class="text-muted small">Loading parties…</div>
+            </div>
+        </section>
 
-<!-- Party Card-->
-<div class="container">
-    <div class="card" style="width: 22rem;">
-        <div class="card-body">
-            <h5 class="card-title">Party 4</h5>
-            <p class="card-text">1/6 playes in party</p>
-            <a href="/join party">
-                <button>Join</button>
-            </a>
-        </div>
-    </div>
-</div>
-<br>
+    </main>
+
+    <!-- JS -->
+    <script>
+        // Load data when page loads
+        document.addEventListener("DOMContentLoaded", function () {
+            loadGames();
+            loadParties();
+        });
+
+        // -------------------- LOAD GAMES --------------------
+        async function loadGames(searchTerm = '') {
+            const grid = document.getElementById("gamesGrid");
+            if (!grid) return;
+
+            try {
+                const response = await fetch("/api/games");
+                if (!response.ok) throw new Error("API error " + response.status);
+
+                const games = await response.json();
+
+                // Filter by search term if provided
+                let filteredGames = games;
+                if (searchTerm) {
+                    const term = searchTerm.toLowerCase();
+                    filteredGames = games.filter(game => {
+                        const name = game.name || game.title || game.gameName || '';
+                        return name.toLowerCase().includes(term);
+                    });
+                }
+
+                if (!filteredGames || filteredGames.length === 0) {
+                    grid.innerHTML = '<div class="col-12"><p class="text-muted">No games found.</p></div>';
+                    return;
+                }
+
+                grid.innerHTML = "";
+
+                filteredGames.forEach(game => {
+                    const col = document.createElement("div");
+                    col.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+
+                    const card = document.createElement("div");
+                    card.className = "card h-100 shadow-sm";
+
+                    const body = document.createElement("div");
+                    body.className = "card-body d-flex flex-column";
+
+                    const title = document.createElement("h5");
+                    title.className = "card-title mb-2";
+                    const name = game.name || game.title || game.gameName || "Unknown";
+                    title.textContent = name;
+                    body.appendChild(title);
+
+                    if (game.year || game.release_date) {
+                        const badge = document.createElement("span");
+                        badge.className = "badge bg-secondary align-self-start mb-2";
+                        badge.textContent = game.year || game.release_date;
+                        body.appendChild(badge);
+                    }
+
+                    const footer = document.createElement("div");
+                    footer.className = "mt-auto pt-3";
+
+                    const button = document.createElement("a");
+                    button.className = "btn btn-primary btn-sm w-100";
+                    button.href = "/joinparty?game=" + encodeURIComponent(name);
+                    button.textContent = "Find Parties";
+
+                    footer.appendChild(button);
+                    body.appendChild(footer);
+                    card.appendChild(body);
+                    col.appendChild(card);
+                    grid.appendChild(col);
+                });
+
+            } catch (error) {
+                grid.innerHTML = '<div class="col-12"><p class="text-danger">Failed to load games: ' + escapeHtml(error.message) + '</p></div>';
+            }
+        }
+
+        // -------------------- LOAD PARTIES --------------------
+        async function loadParties(searchTerm = '') {
+            const grid = document.getElementById("partiesGrid");
+            if (!grid) return;
+
+            try {
+                const response = await fetch("/api/parties");
+                if (!response.ok) throw new Error("API error " + response.status);
+
+                const parties = await response.json();
+
+                // Filter by search term if provided
+                let filteredParties = parties;
+                if (searchTerm) {
+                    const term = searchTerm.toLowerCase();
+                    filteredParties = parties.filter(party => {
+                        const game = party.game || '';
+                        const host = party.host || '';
+                        return game.toLowerCase().includes(term) || host.toLowerCase().includes(term);
+                    });
+                }
+
+                if (!filteredParties || filteredParties.length === 0) {
+                    grid.innerHTML = '<div class="col-12"><p class="text-muted">No active parties found.</p></div>';
+                    return;
+                }
+
+                grid.innerHTML = "";
+
+                filteredParties.forEach(party => {
+                    const col = document.createElement("div");
+                    col.className = "col-12 col-sm-6 col-md-4";
+
+                    const card = document.createElement("div");
+                    card.className = "card h-100 shadow-sm";
+
+                    const body = document.createElement("div");
+                    body.className = "card-body d-flex flex-column";
+
+                    const title = document.createElement("h5");
+                    title.className = "card-title mb-2";
+                    title.textContent = party.game || "Unknown Game";
+                    body.appendChild(title);
+
+                    const host = document.createElement("p");
+                    host.className = "text-muted small mb-2";
+                    host.textContent = "Host: " + (party.host || "Unknown");
+                    body.appendChild(host);
+
+                    const players = document.createElement("p");
+                    players.className = "card-text mb-2";
+                    const current = party.current_players || party.currentPlayers || 0;
+                    const max = party.max_players || party.maxPlayers || 6;
+                    players.textContent = current + "/" + max + " players";
+                    body.appendChild(players);
+
+                    const footer = document.createElement("div");
+                    footer.className = "mt-auto pt-3";
+
+                    const button = document.createElement("a");
+                    button.className = "btn btn-success btn-sm w-100";
+                    button.href = "/joinparty?game=" + encodeURIComponent(party.game || '');
+                    button.textContent = "Join Party";
+
+                    footer.appendChild(button);
+                    body.appendChild(footer);
+                    card.appendChild(body);
+                    col.appendChild(card);
+                    grid.appendChild(col);
+                });
+
+            } catch (error) {
+                grid.innerHTML = '<div class="col-12"><p class="text-danger">Failed to load parties: ' + escapeHtml(error.message) + '</p></div>';
+            }
+        }
+
+        // -------------------- SEARCH FUNCTION --------------------
+        function performSearch() {
+            const searchInput = document.getElementById("searchInput");
+            const searchTerm = searchInput.value.trim();
+            loadGames(searchTerm);
+            loadParties(searchTerm);
+        }
+
+        // Allow Enter key to trigger search
+        document.getElementById("searchInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                performSearch();
+            }
+        });
+
+        // -------------------- HTML ESCAPING --------------------
+        function escapeHtml(text) {
+            if (text === undefined || text === null) return "";
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+
+</body>
+
+</html>
