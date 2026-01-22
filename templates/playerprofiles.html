@@ -38,7 +38,13 @@
 
   <!-- PAGE HEADER -->
   <header class="mb-4">
-    <h1 class="display-6 fw-semibold mb-1">Player Profile</h1>
+    <h1 class="display-6 fw-semibold mb-1">
+      {% if selected_game %}
+        Profile for {{ selected_game }}
+      {% else %}
+        Player Profile
+      {% endif %}
+    </h1>
     <p class="text-muted mb-0">
       View your profile and manage your party
     </p>
@@ -88,6 +94,23 @@
           </a>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- SEND MESSAGE -->
+  <section class="home-section">
+    <h2 class="h5 mb-3">Send Message</h2>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form action="/api/send-message" method="POST">
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="3" placeholder="Enter your message..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
       </div>
     </div>
   </section>

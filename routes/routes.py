@@ -1,8 +1,11 @@
 from flask import jsonify, render_template
 from flask import request, redirect
+from flask import session
 from models.CreateAccountModel import CreateAccountModel
-#from models.parties import PartyModel
+from models.parties import PartyModel
+from models.login_model import LoginModel
 from pymongo import MongoClient
+from datetime import datetime
 
 
 
@@ -16,8 +19,9 @@ import os
 
 
 
-#party_model = PartyModel()
+party_model = PartyModel()
 create_account_model = CreateAccountModel()
+login_model = LoginModel()
 #profile_model = ProfileModel()
 
 def register_routes(app):
@@ -59,18 +63,19 @@ def register_routes(app):
 
     @app.route('/playerprofiles')
     def player_profiles():
-        return render_template('playerprofiles.html')
+        game = request.args.get('game')
+        return render_template('playerprofiles.html', selected_game=game)
     
-    # @app.route('/joinparty')
-    # def joinparty_page():
-    #     game = request.args.get("game")  # e.g. Valorant
+    @app.route('/joinparty')
+    def joinparty_page():
+        game = request.args.get("game")  # e.g. Valorant
 
-    #     if game:
-    #         parties = list(party_model.collection.find({"game": game}))
-    #     else:
-    #         parties = list(party_model.collection.find())
+        if game:
+            parties = list(party_model.collection.find({"game": game}))
+        else:
+            parties = list(party_model.collection.find())
 
-    #     return render_template("joinparty.html", parties=parties, selected_game=game)
+        return render_template("joinparty.html", parties=parties, selected_game=game)
 
 
 
@@ -80,40 +85,99 @@ def register_routes(app):
 
     from bson import ObjectId
 
-    # @app.route('/api/update-profile', methods=['POST'])
-    # def update_profile():
-    # # TEMP: simulate logged-in user
-    #     current_username = "marin"
+    @app.route('/api/update-profile', methods=['POST'])
+    def update_profile():
+        current_user_id = session.get("user_id")
+        if not current_user_id:
+            return redirect('/login')  # or handle not logged in
 
-    #     new_username = request.form.get('username')
-    #     bio = request.form.get('bio')
+        new_username = request.form.get('username')
+        bio = request.form.get('bio')
 
-    #     update_data = {}
+        update_data = {}
 
-    #     if new_username:
-    #         update_data["username"] = new_username
+        if new_username:
+            update_data["username"] = new_username
 
-    #     if bio is not None:
-    #         update_data["bio"] = bio
+        if bio is not None:
+            update_data["bio"] = bio
 
-    #     if update_data:
-    #         db.Users.update_one(
-    #             {"username": current_username},
-    #             {"$set": update_data}
-    #         )
+        if update_data:
+            login_model.collection.update_one(
+                {"_id": ObjectId(current_user_id)},
+                {"$set": update_data}
+            )
+            # Insert into editedprofiles collection
+            edit_data = {
+                "user_id": ObjectId(current_user_id),
+                "username": session.get("username"),
+                "changes": update_data,
+                "timestamp": datetime.utcnow()
+            }
+            login_model.db["editedprofiles"].insert_one(edit_data)
+            # Optionally update session username if changed
+            if new_username:
+                session["username"] = new_username
 
-    #     return redirect('/home')
+        return redirect('/home')
 
+    @app.route('/api/send-message', methods=['POST'])
+    def send_message():
+        current_user_id = session.get("user_id")
+        if not current_user_id:
+            return redirect('/login')
+
+        message = request.form.get('message')
+        if message:
+            msg_data = {
+                "user_id": ObjectId(current_user_id),
+                "message": message,
+                "timestamp": datetime.utcnow()
+            }
+            login_model.db["player profiles msg"].insert_one(msg_data)
+
+        return redirect('/playerprofiles')
+
+    @app.route('/api/leave-party', methods=['POST'])
+    def leave_party():
+        current_user_id = session.get("user_id")
+        if not current_user_id:
+            return redirect('/login')
+
+        username = session.get("username")
+        leave_data = {
+            "user_id": ObjectId(current_user_id),
+            "username": username,
+            "timestamp": datetime.utcnow()
+        }
+        login_model.db["leftparties"].insert_one(leave_data)
+
+        return redirect('/home')
 
     
-    # @app.route('/api/join-party', methods=['POST'])
-    # def join_party():
-    #     db.player_stats.update_one(
-    #         {"user_id": "test_user"},
-    #         {"$set": {"party": "party_1"}},
-    #         upsert=True
-    #     )
-    #     return redirect('/playerprofiles')
+    @app.route('/api/join-party', methods=['POST'])
+    def join_party():
+        current_user_id = session.get("user_id")
+        if not current_user_id:
+            return redirect('/login')
+
+        party_id = request.form.get('party_id')
+        if party_id:
+            # Fetch the party to get the game
+            party = party_model.collection.find_one({"_id": ObjectId(party_id)})
+            if party:
+                game = party.get('game', 'Unknown')
+                join_data = {
+                    "user_id": ObjectId(current_user_id),
+                    "party_id": ObjectId(party_id),
+                    "timestamp": datetime.utcnow()
+                }
+                login_model.db["joined parties"].insert_one(join_data)
+                return redirect(f'/playerprofiles?game={game}')
+            else:
+                return redirect('/joinparty')  # Party not found
+
+        return redirect('/joinparty')
 
     
 
