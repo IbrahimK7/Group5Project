@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    defer
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" defer></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,18 +17,19 @@
 
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
 
-        <div class="ms-auto d-flex gap-4">
-          <a href="/home" class="nav-link text-white">Home</a>
-          <a href="/inbox" class="nav-link text-white">Inbox</a>
-          <a href="/host" class="nav-link text-white">Host</a>
-          <a href="/parties" class="nav-link text-white">Join</a>
-          <a href="/settings" class="nav-link text-white">Settings</a>
-        </div>
+      <div class="ms-auto d-flex gap-4">
+        <a href="/home" class="nav-link text-white">Home</a>
+        <a href="/inbox" class="nav-link text-white">Inbox</a>
+        <a href="/host" class="nav-link text-white">Host</a>
+        <a href="/parties" class="nav-link text-white">Join</a>
+        <a href="/search" class="nav-link text-white">Search</a>
+        <a href="/settings" class="nav-link text-white">Settings</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
   <main class="container py-4 py-lg-5">
 
@@ -42,13 +38,13 @@
       <h1 class="display-6 fw-semibold mb-1">Join a Party</h1>
 
       {% if selected_game %}
-        <p class="text-muted">
-          Showing parties for <strong>{{ selected_game }}</strong>
-        </p>
+      <p class="text-muted">
+        Showing parties for <strong>{{ selected_game }}</strong>
+      </p>
       {% else %}
-        <p class="text-muted">
-          Showing all available parties
-        </p>
+      <p class="text-muted">
+        Showing all available parties
+      </p>
       {% endif %}
     </header>
 
@@ -57,46 +53,46 @@
       <div class="row g-3 g-lg-4">
 
         {% if parties %}
-          {% for party in parties %}
-            <div class="col-md-6 col-lg-4">
-              <div class="card h-100 shadow-sm">
-                <div class="card-body d-flex flex-column">
+        {% for party in parties %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
 
-                  <h5 class="card-title">{{ party.partyName }}</h5>
+              <h5 class="card-title">{{ party.partyName }}</h5>
 
-                  <p class="text-muted mb-1">
-                    Game: {{ party.game }}
-                  </p>
+              <p class="text-muted mb-1">
+                Game: {{ party.game }}
+              </p>
 
-                  <p class="text-muted mb-3">
-                    Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}
-                  </p>
+              <p class="text-muted mb-3">
+                Players: {{ party.currentPlayers }}/{{ party.maxPlayers }}
+              </p>
 
-                  <form method="POST" action="/api/join-party" class="mt-auto">
-                    <input type="hidden" name="party_id" value="{{ party._id }}">
-                    <button type="submit" class="btn btn-primary w-100">
-                      Join Party
-                    </button>
-                  </form>
+              <form method="POST" action="/api/join-party" class="mt-auto">
+                <input type="hidden" name="party_id" value="{{ party._id }}">
+                <button type="submit" class="btn btn-primary w-100">
+                  Join Party
+                </button>
+              </form>
 
-                </div>
-              </div>
             </div>
-          {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
         {% else %}
-          <div class="col-12">
-            <div class="home-empty">
-              <div class="home-empty-inner">
-                <div class="home-empty-icon">🎮</div>
-                <div>
-                  <div class="fw-semibold">No parties available</div>
-                  <div class="text-muted small">
-                    Try another game or come back later.
-                  </div>
+        <div class="col-12">
+          <div class="home-empty">
+            <div class="home-empty-inner">
+              <div class="home-empty-icon">🎮</div>
+              <div>
+                <div class="fw-semibold">No parties available</div>
+                <div class="text-muted small">
+                  Try another game or come back later.
                 </div>
               </div>
             </div>
           </div>
+        </div>
         {% endif %}
 
       </div>
@@ -105,4 +101,5 @@
   </main>
 
 </body>
+
 </html>

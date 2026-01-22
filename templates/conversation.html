@@ -1,82 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    >
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-      defer
-    ></script>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversation</title>
-  </head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+    defer></script>
 
-  <body class="app-body page-conversation">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
-        <div class="ms-auto d-flex gap-4">
-          <a href="/home" class="nav-link text-white">Home</a>
-          <a href="/inbox" class="nav-link text-white fw-semibold text-decoration-underline">Inbox</a>
-          <a href="/host" class="nav-link text-white">Host</a>
-          <a href="/parties" class="nav-link text-white">Join</a>
-          <a href="/settings" class="nav-link text-white">Settings</a>
-        </div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversation</title>
+</head>
+
+<body class="app-body page-conversation">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+      <div class="ms-auto d-flex gap-4">
+        <a href="/home" class="nav-link text-white">Home</a>
+        <a href="/inbox" class="nav-link text-white fw-semibold text-decoration-underline">Inbox</a>
+        <a href="/host" class="nav-link text-white">Host</a>
+        <a href="/parties" class="nav-link text-white">Join</a>
+        <a href="/search" class="nav-link text-white">Search</a>
+        <a href="/settings" class="nav-link text-white">Settings</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <main class="container py-4 py-lg-5">
-      <section class="conversation-panel">
-        <!-- Header -->
-        <div class="conversation-head">
-          <div class="d-flex align-items-center gap-2">
-            <a href="/inbox" class="btn btn-sm btn-outline-secondary">← Back</a>
-            <div>
-              <div class="conversation-title">Conversation</div>
-              <div class="conversation-sub text-muted small" id="conversationWith">
-                Loading…
-              </div>
+  <main class="container py-4 py-lg-5">
+    <section class="conversation-panel">
+      <!-- Header -->
+      <div class="conversation-head">
+        <div class="d-flex align-items-center gap-2">
+          <a href="/inbox" class="btn btn-sm btn-outline-secondary">← Back</a>
+          <div>
+            <div class="conversation-title">Conversation</div>
+            <div class="conversation-sub text-muted small" id="conversationWith">
+              Loading…
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Messages -->
-        <div class="conversation-body" id="chatMessages">
-          <div class="text-muted small text-center py-3">Loading messages…</div>
-        </div>
+      <!-- Messages -->
+      <div class="conversation-body" id="chatMessages">
+        <div class="text-muted small text-center py-3">Loading messages…</div>
+      </div>
 
-        <!-- Composer -->
-        <form class="conversation-compose" id="messageForm">
-          <input
-            class="form-control"
-            id="messageInput"
-            type="text"
-            placeholder="Type a message…"
-            autocomplete="off"
-            required
-          >
-          <button class="btn btn-primary" type="submit">Send</button>
-        </form>
-      </section>
-    </main>
+      <!-- Composer -->
+      <form class="conversation-compose" id="messageForm">
+        <input class="form-control" id="messageInput" type="text" placeholder="Type a message…" autocomplete="off"
+          required>
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+    </section>
+  </main>
 
-    <!-- Thread id injected by Flask -->
-    <script>
-      const THREAD_ID = "{{ thread_id }}";
-    </script>
+  <!-- Thread id injected by Flask -->
+  <script>
+    const THREAD_ID = "{{ thread_id }}";
+  </script>
 
-    <!-- JS for this page -->
-    <script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
-  </body>
+  <!-- JS for this page -->
+  <script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
+</body>
+
 </html>

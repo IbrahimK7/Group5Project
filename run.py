@@ -1,14 +1,15 @@
+from flask import redirect
+from utils import create_app
 from dotenv import load_dotenv
 load_dotenv()   # <-- MUST be first
 
-from utils import create_app
-from flask import redirect
 
 app = create_app()
 
 
 def index():
     return redirect('/login')
+
 
 app.add_url_rule('/', 'index', index)
 

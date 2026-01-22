@@ -1,130 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    >
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-      defer
-    ></script>
+<head>
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-  </head>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+    defer></script>
 
-  <body class="app-body page-home">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+</head>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
-        <div class="ms-auto d-flex gap-4">
-          <a href="/home" class="nav-link text-white">Home</a>
-          <a href="/inbox" class="nav-link text-white">Inbox</a>
-          <a href="/host" class="nav-link text-white">Host</a>
-          <a href="/parties" class="nav-link text-white">Join</a>
-          <a href="/settings" class="nav-link text-white">Settings</a>
+<body class="app-body page-home">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+      <div class="ms-auto d-flex gap-4">
+        <a href="/home" class="nav-link text-white">Home</a>
+        <a href="/inbox" class="nav-link text-white">Inbox</a>
+        <a href="/host" class="nav-link text-white">Host</a>
+        <a href="/parties" class="nav-link text-white">Join</a>
+        <a href="/search" class="nav-link text-white">Search</a>
+        <a href="/settings" class="nav-link text-white">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4 py-lg-5">
+
+    <!-- Hero -->
+    <header class="home-hero mb-4 mb-lg-5">
+      <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+        <div>
+          <h1 class="display-6 fw-semibold mb-1">Home</h1>
+          <p class="text-muted mb-0">
+            Find parties fast — jump into what’s trending or pick up where you left off.
+          </p>
+        </div>
+
+        <form class="home-hero-search" action="/joinparty" method="get">
+          <div class="input-group">
+            <input type="text" name="game" class="form-control" placeholder="Search a game...">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </form>
+      </div>
+    </header>
+
+    <!-- What's Hot -->
+    <section class="home-section mb-4 mb-lg-5">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <h2 class="h4 mb-1">What’s Hot</h2>
+          <p class="text-muted small mb-0">Trending games right now</p>
         </div>
       </div>
-    </nav>
 
-    <main class="container py-4 py-lg-5">
+      <div class="row g-3 g-lg-4" id="whatsHotGrid"></div>
+    </section>
 
-      <!-- Hero -->
-      <header class="home-hero mb-4 mb-lg-5">
-        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
-          <div>
-            <h1 class="display-6 fw-semibold mb-1">Home</h1>
-            <p class="text-muted mb-0">
-              Find parties fast — jump into what’s trending or pick up where you left off.
-            </p>
-          </div>
+    <!-- Leaderboard + Games -->
+    <section class="home-section">
+      <div class="row g-3 g-lg-4">
 
-          <form class="home-hero-search" action="/joinparty" method="get">
-            <div class="input-group">
-              <input
-                type="text"
-                name="game"
-                class="form-control"
-                placeholder="Search a game..."
-              >
-              <button class="btn btn-primary" type="submit">Search</button>
-            </div>
-          </form>
-        </div>
-      </header>
-
-      <!-- What's Hot -->
-      <section class="home-section mb-4 mb-lg-5">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-          <div>
-            <h2 class="h4 mb-1">What’s Hot</h2>
-            <p class="text-muted small mb-0">Trending games right now</p>
-          </div>
-        </div>
-
-        <div class="row g-3 g-lg-4" id="whatsHotGrid"></div>
-      </section>
-
-      <!-- Leaderboard + Games -->
-      <section class="home-section">
-        <div class="row g-3 g-lg-4">
-
-          <!-- Leaderboard Panel -->
-          <div class="col-12">
-            <div class="card shadow-sm border-0">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <div>
-                    <h2 class="h5 mb-1">Leaderboard</h2>
-                    <p class="text-muted small mb-0">Top players across games</p>
-                  </div>
+        <!-- Leaderboard Panel -->
+        <div class="col-12">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div>
+                  <h2 class="h5 mb-1">Leaderboard</h2>
+                  <p class="text-muted small mb-0">Top players across games</p>
                 </div>
+              </div>
 
-                <div id="leaderboardPanel">
-                  <div class="text-muted small">Loading leaderboard…</div>
-                </div>
+              <div id="leaderboardPanel">
+                <div class="text-muted small">Loading leaderboard…</div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Games Panel -->
-          <div class="col-12">
-            <div class="card shadow-sm border-0">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <div>
-                    <h2 class="h5 mb-1">Games</h2>
-                    <p class="text-muted small mb-0">Browse available games</p>
-                  </div>
+        <!-- Games Panel -->
+        <div class="col-12">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div>
+                  <h2 class="h5 mb-1">Games</h2>
+                  <p class="text-muted small mb-0">Browse available games</p>
                 </div>
+              </div>
 
-                <div id="gamesPanel">
-                  <div class="text-muted small">Loading games…</div>
-                </div>
+              <div id="gamesPanel">
+                <div class="text-muted small">Loading games…</div>
               </div>
             </div>
           </div>
-
         </div>
-      </section>
 
-    </main>
+      </div>
+    </section>
 
-    <!-- JS -->
-    <script src="{{ url_for('static', filename='js/whats_hot.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/home_panels.js') }}"></script>
+  </main>
 
-  </body>
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/whats_hot.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/home_panels.js') }}"></script>
+
+</body>
+
 </html>

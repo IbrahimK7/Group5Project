@@ -8,7 +8,6 @@ from pymongo import MongoClient
 from datetime import datetime
 
 
-
 from .home import register_home_routes
 from .auth import register_auth_routes
 from .inbox_routes import register_inbox_routes
@@ -18,11 +17,11 @@ from .party_routes import register_party_routes
 import os
 
 
-
 party_model = PartyModel()
 create_account_model = CreateAccountModel()
 login_model = LoginModel()
-#profile_model = ProfileModel()
+# profile_model = ProfileModel()
+
 
 def register_routes(app):
     register_home_routes(app)
@@ -33,25 +32,22 @@ def register_routes(app):
     @app.route('/settings')
     def settings_page():
         return render_template("settings.html")
-    
+
     @app.route('/api/forgot-password')
     def forgot_password():
         return jsonify({"message": "password reset link sent!"})
 
-    
     @app.route('/host')
     def host():
         return render_template("host.html")
-    
+
     @app.route('/search')
     def search():
-        return jsonify({"message": "Search for a party!"})
-    
+        return render_template("Search.html")
+
     @app.route('/api/create-account')
     def create_account():
         return jsonify({"message": "Create an account!"})
-
-
 
     @app.route('/api/rate')
     def rate():
@@ -65,7 +61,7 @@ def register_routes(app):
     def player_profiles():
         game = request.args.get('game')
         return render_template('playerprofiles.html', selected_game=game)
-    
+
     @app.route('/joinparty')
     def joinparty_page():
         game = request.args.get("game")  # e.g. Valorant
@@ -76,8 +72,6 @@ def register_routes(app):
             parties = list(party_model.collection.find())
 
         return render_template("joinparty.html", parties=parties, selected_game=game)
-
-
 
     @app.route('/leaveparty')
     def leaveparty_page():
@@ -154,7 +148,6 @@ def register_routes(app):
 
         return redirect('/home')
 
-    
     @app.route('/api/join-party', methods=['POST'])
     def join_party():
         current_user_id = session.get("user_id")
@@ -164,7 +157,8 @@ def register_routes(app):
         party_id = request.form.get('party_id')
         if party_id:
             # Fetch the party to get the game
-            party = party_model.collection.find_one({"_id": ObjectId(party_id)})
+            party = party_model.collection.find_one(
+                {"_id": ObjectId(party_id)})
             if party:
                 game = party.get('game', 'Unknown')
                 join_data = {
@@ -178,9 +172,3 @@ def register_routes(app):
                 return redirect('/joinparty')  # Party not found
 
         return redirect('/joinparty')
-
-    
-
-    
-
-

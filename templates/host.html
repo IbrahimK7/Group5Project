@@ -1,87 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- CSS Style sheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    >
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-      defer
-    ></script>
+<head>
+  <!-- CSS Style sheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Host</title>
-  </head>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+    defer></script>
 
-  <!-- page-host scopes styling -->
-  <body class="app-body page-host">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Host</title>
+</head>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
-        <div class="ms-auto d-flex gap-4">
-          <a href="/home" class="nav-link text-white">Home</a>
-          <a href="/inbox" class="nav-link text-white">Inbox</a>
-          <a href="/host" class="nav-link text-white fw-semibold text-decoration-underline">Host</a>
-          <a href="/parties" class="nav-link text-white">Join</a>
-          <a href="/settings" class="nav-link text-white">Settings</a>
+<!-- page-host scopes styling -->
+
+<body class="app-body page-host">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+      <div class="ms-auto d-flex gap-4">
+        <a href="/home" class="nav-link text-white">Home</a>
+        <a href="/inbox" class="nav-link text-white">Inbox</a>
+        <a href="/host" class="nav-link text-white fw-semibold text-decoration-underline">Host</a>
+        <a href="/parties" class="nav-link text-white">Join</a>
+        <a href="/search" class="nav-link text-white">Search</a>
+        <a href="/settings" class="nav-link text-white">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4 py-lg-5 host-center">
+
+    <!-- Page header -->
+    <header class="host-header mb-4 mb-lg-5">
+      <h1 class="h3 mb-1">Host a Party</h1>
+      <p class="text-muted mb-0">
+        Set up your game session and invite others to join.
+      </p>
+    </header>
+
+    <!-- Main hosting card -->
+    <section class="host-panel">
+      <div class="host-panel-head">
+        <div class="host-panel-title">Party Setup</div>
+      </div>
+
+      <div class="host-panel-body">
+        <!-- Game selection -->
+        <div class="host-section">
+          <label class="form-label">Game</label>
+          <button type="button" class="btn btn-outline-primary w-100">
+            Select game
+          </button>
+        </div>
+
+        <!-- Settings -->
+        <div class="host-section">
+          <label class="form-label">Party Settings</label>
+          <div class="host-settings-box">
+            <span class="text-muted">Private / Public, max players, region…</span>
+          </div>
+        </div>
+
+        <!-- Launch -->
+        <div class="host-actions">
+          <button type="button" class="btn btn-primary btn-lg w-100">
+            Launch Party
+          </button>
         </div>
       </div>
-    </nav>
+    </section>
 
-    <main class="container py-4 py-lg-5 host-center">
+  </main>
+</body>
 
-      <!-- Page header -->
-      <header class="host-header mb-4 mb-lg-5">
-        <h1 class="h3 mb-1">Host a Party</h1>
-        <p class="text-muted mb-0">
-          Set up your game session and invite others to join.
-        </p>
-      </header>
-
-      <!-- Main hosting card -->
-      <section class="host-panel">
-        <div class="host-panel-head">
-          <div class="host-panel-title">Party Setup</div>
-        </div>
-
-        <div class="host-panel-body">
-          <!-- Game selection -->
-          <div class="host-section">
-            <label class="form-label">Game</label>
-            <button type="button" class="btn btn-outline-primary w-100">
-              Select game
-            </button>
-          </div>
-
-          <!-- Settings -->
-          <div class="host-section">
-            <label class="form-label">Party Settings</label>
-            <div class="host-settings-box">
-              <span class="text-muted">Private / Public, max players, region…</span>
-            </div>
-          </div>
-
-          <!-- Launch -->
-          <div class="host-actions">
-            <button type="button" class="btn btn-primary btn-lg w-100">
-              Launch Party
-            </button>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </body>
 </html>
