@@ -6,48 +6,51 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class PartyModel:
     def __init__(self):
         uri = os.getenv("MONGO_URI")
-        if not uri:
+        if uri is None:
             raise RuntimeError("MONGO_URI missing")
 
         self.client = MongoClient(
             uri,
             tls=True,
-            tlsCAFile=certifi.where(),
-            serverSelectionTimeoutMS=5000
+            tlsCAFile=certifi.where()
         )
 
         self.db = self.client["Group5Project"]
-        self.collection = self.db["Parties"]
+        self.parties = self.db["Parties"]
+        self.collection = self.parties  
 
+    # -------------------- HELPERS --------------------
+    def _to_object_id(self, party_id):
+        try:
+            return ObjectId(party_id)
+        except Exception:
+            return None
+
+    # -------------------- READ --------------------
+    def get_all_parties(self):
+        parties = list(self.parties.find())
+        for p in parties:
+            p["_id"] = str(p["_id"])
+        return parties
+
+    # -------------------- CREATE --------------------
     def add_party(self, party_data):
-        """
-        Add a new party document to the database.
-        Example data:
-        {
-            "partyName": "Toxic Lobby",
-            "game": "CS:GO",
-            "maxPlayers": 10,
-            "currentPlayers": 8,
-            "players": ["Ryan", "Leo", ...]
-        }
-        """
-        result = self.collection.insert_one(party_data)
+        result = self.parties.insert_one(party_data)
         return str(result.inserted_id)
 
+    # -------------------- DELETE --------------------
     def remove_party(self, party_id):
-        """
-        Remove a party by ID.
-        Returns True if deleted, False if not.
-        """
-        try:
-            result = self.collection.delete_one({"_id": ObjectId(party_id)})
-            return result.deleted_count > 0
-        except:
+        oid = self._to_object_id(party_id)
+        if oid is None:
             return False
 
-    def close_connection(self):
-        """Close MongoDB connection"""
+        result = self.parties.delete_one({"_id": oid})
+        return result.deleted_count > 0
+
+    # -------------------- CLEANUP --------------------
+    def close(self):
         self.client.close()

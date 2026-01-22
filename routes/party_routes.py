@@ -5,13 +5,6 @@ party_model = PartyModel()
 
 def register_party_routes(app):
 
-    from flask import render_template, jsonify
-from models.parties import PartyModel
-
-party_model = PartyModel()
-
-def register_party_routes(app):
-
     @app.route("/parties")
     def parties_page():
         parties = list(party_model.collection.find())

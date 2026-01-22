@@ -1,58 +1,128 @@
-document.addEventListener("DOMContentLoaded", loadThreads);
+// Run code after the page is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+  loadThreads();
+});
 
+// -------------------- LOAD THREADS --------------------
 async function loadThreads() {
   const list = document.getElementById("threadList");
-  if (!list) return;
+  if (!list) {
+    return;
+  }
 
   try {
-    const res = await fetch("/threads");
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || `Request failed (${res.status})`);
+    // 1) Request threads from the server
+    const response = await fetch("/threads");
+
+    if (!response.ok) {
+      let err = {};
+      try {
+        err = await response.json();
+      } catch (_) {}
+      throw new Error(err.error || "Request failed (" + response.status + ")");
     }
 
-    const threads = await res.json();
+    // 2) Parse JSON response
+    const threads = await response.json();
 
-    if (!threads.length) {
-      list.innerHTML = `<p class="text-muted m-0">No conversations yet.</p>`;
+    // 3) If there are no conversations
+    if (!threads || threads.length === 0) {
+      list.innerHTML =
+        '<p class="text-muted m-0">No conversations yet.</p>';
       return;
     }
 
-    list.innerHTML = threads.map(t => {
-      const other = escapeHtml(t.other_user ?? "Unknown");
-      const last = t.last_message ?? {};
-      const preview = escapeHtml(last.content ?? "");
-      const unread = last.read === false;
-      const badge = unread
-        ? `<span class="badge bg-success">Unread</span>`
-        : `<span class="badge bg-secondary">Read</span>`;
+    // 4) Clear list
+    list.innerHTML = "";
 
-      return `
-        <a class="thread-row text-decoration-none text-dark"
-           href="/messages/${encodeURIComponent(t.thread_id)}">
-          <div class="thread-left">
-            <div class="thread-name">${other}</div>
-            <div class="thread-preview">${preview || "<span class='text-muted'>No messages</span>"}</div>
-          </div>
-          <div class="thread-right">
-            ${badge}
-          </div>
-        </a>
-      `;
-    }).join("");
+    // 5) Loop through threads
+    for (let i = 0; i < threads.length; i++) {
+      const thread = threads[i];
 
-  } catch (e) {
-    list.innerHTML = `<p class="text-danger m-0">Failed to load: ${escapeHtml(e.message)}</p>`;
+      // Other user's name
+      let otherUser = "Unknown";
+      if (thread.other_user) {
+        otherUser = thread.other_user;
+      }
+
+      // Last message
+      let lastMessage = {};
+      if (thread.last_message) {
+        lastMessage = thread.last_message;
+      }
+
+      let previewText = "";
+      if (lastMessage.content) {
+        previewText = lastMessage.content;
+      }
+
+      // Read / unread badge
+      let badgeHtml = "";
+      if (lastMessage.read === false) {
+        badgeHtml = '<span class="badge bg-success">Unread</span>';
+      } else {
+        badgeHtml = '<span class="badge bg-secondary">Read</span>';
+      }
+
+      // Create link
+      const link = document.createElement("a");
+      link.className = "thread-row text-decoration-none text-dark";
+      link.href =
+        "/messages/" + encodeURIComponent(thread.thread_id);
+
+      // Left side
+      const left = document.createElement("div");
+      left.className = "thread-left";
+
+      const name = document.createElement("div");
+      name.className = "thread-name";
+      name.textContent = otherUser;
+
+      const preview = document.createElement("div");
+      preview.className = "thread-preview";
+
+      if (previewText !== "") {
+        preview.textContent = previewText;
+      } else {
+        preview.innerHTML =
+          "<span class='text-muted'>No messages</span>";
+      }
+
+      left.appendChild(name);
+      left.appendChild(preview);
+
+      // Right side
+      const right = document.createElement("div");
+      right.className = "thread-right";
+      right.innerHTML = badgeHtml;
+
+      // Assemble row
+      link.appendChild(left);
+      link.appendChild(right);
+      list.appendChild(link);
+    }
+
+  } catch (error) {
+    list.innerHTML =
+      '<p class="text-danger m-0">Failed to load: ' +
+      escapeHtml(error.message) +
+      "</p>";
   }
 }
 
+// -------------------- HTML ESCAPING --------------------
 function escapeHtml(text) {
-  if (text === undefined || text === null) return "";
-  return String(text).replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  }[c]));
+  if (text === undefined || text === null) {
+    return "";
+  }
+
+  return String(text).replace(/[&<>"']/g, function (c) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[c];
+  });
 }

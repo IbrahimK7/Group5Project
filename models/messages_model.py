@@ -7,26 +7,34 @@ from datetime import datetime
 
 load_dotenv()
 
+
 class MessageModel:
     def __init__(self):
         uri = os.getenv("MONGO_URI")
-        if not uri:
+        if uri is None:
             raise RuntimeError("MONGO_URI missing")
 
         self.client = MongoClient(
             uri,
             tls=True,
-            tlsCAFile=certifi.where(),
-            serverSelectionTimeoutMS=5000
+            tlsCAFile=certifi.where()
         )
 
         self.db = self.client["Group5Project"]
-        self.collection = self.db["Messages"]  # case-sensitive
+        self.messages = self.db["Messages"]
 
-    def _thread_id(self, a: str, b: str) -> str:
-        return ":".join(sorted([a, b]))
+    # -------------------- HELPERS --------------------
+    def _thread_id(self, user_a, user_b):
+        # Ensure both users get the same thread_id order
+        return ":".join(sorted([user_a, user_b]))
 
-    def send_message(self, sender: str, receiver: str, content: str) -> str:
+    def _clean_id(self, doc):
+        if doc and "_id" in doc:
+            doc["_id"] = str(doc["_id"])
+        return doc
+
+    # -------------------- CREATE --------------------
+    def send_message(self, sender, receiver, content):
         doc = {
             "thread_id": self._thread_id(sender, receiver),
             "sender": sender,
@@ -35,49 +43,68 @@ class MessageModel:
             "read": False,
             "created_at": datetime.utcnow()
         }
-        result = self.collection.insert_one(doc)
+
+        result = self.messages.insert_one(doc)
         return str(result.inserted_id)
 
-    def get_threads_for_user(self, username: str):
+    # -------------------- READ --------------------
+    def get_thread_messages(self, user_a, user_b):
+        thread_id = self._thread_id(user_a, user_b)
+
+        msgs = list(
+            self.messages.find({"thread_id": thread_id}).sort("_id", 1)
+        )
+
+        for m in msgs:
+            self._clean_id(m)
+
+        return msgs
+
+    def get_threads_for_user(self, username):
+        # Get latest message per thread for this user
         pipeline = [
             {"$match": {"$or": [{"sender": username}, {"receiver": username}]}},
             {"$sort": {"_id": -1}},
             {"$group": {"_id": "$thread_id", "last": {"$first": "$$ROOT"}}},
             {"$sort": {"last._id": -1}},
         ]
-        rows = list(self.collection.aggregate(pipeline))
+
+        rows = list(self.messages.aggregate(pipeline))
         threads = []
-        for r in rows:
-            m = r["last"]
-            m["_id"] = str(m["_id"])
-            other = m["receiver"] if m["sender"] == username else m["sender"]
+
+        for row in rows:
+            last = row["last"]
+            self._clean_id(last)
+
+            if last.get("sender") == username:
+                other = last.get("receiver")
+            else:
+                other = last.get("sender")
+
             threads.append({
-                "thread_id": r["_id"],
+                "thread_id": row["_id"],
                 "other_user": other,
-                "last_message": m
+                "last_message": last
             })
+
         return threads
 
-    def get_thread_messages(self, user_a: str, user_b: str):
-        thread_id = self._thread_id(user_a, user_b)
-        messages = list(self.collection.find({"thread_id": thread_id}).sort("_id", 1))
-        for m in messages:
-            m["_id"] = str(m["_id"])
-        return messages
-
-    def mark_read(self, message_id: str) -> bool:
-        result = self.collection.update_one(
+    # -------------------- UPDATE (READ STATUS) --------------------
+    def mark_read(self, message_id):
+        result = self.messages.update_one(
             {"_id": ObjectId(message_id)},
             {"$set": {"read": True}}
         )
         return result.modified_count > 0
 
-    def mark_thread_read(self, thread_id: str, username: str) -> int:
-        result = self.collection.update_many(
+    def mark_thread_read(self, thread_id, username):
+        # Mark messages sent TO this user in that thread as read
+        result = self.messages.update_many(
             {"thread_id": thread_id, "receiver": username, "read": False},
             {"$set": {"read": True}}
         )
         return result.modified_count
 
-    def close_connection(self):
+    # -------------------- CLEANUP --------------------
+    def close(self):
         self.client.close()

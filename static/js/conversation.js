@@ -1,72 +1,124 @@
-document.addEventListener("DOMContentLoaded", () => {
+// Run code after the page is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
   loadConversation();
   wireComposer();
 });
 
+// -------------------- LOAD CONVERSATION --------------------
 async function loadConversation() {
   const box = document.getElementById("chatMessages");
   const withEl = document.getElementById("conversationWith");
 
+  if (!box || !withEl) {
+    return;
+  }
+
   try {
-    const res = await fetch(`/api/threads/${encodeURIComponent(THREAD_ID)}`);
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || `Request failed (${res.status})`);
+    // 1) Request conversation data
+    const response = await fetch(
+      "/api/threads/" + encodeURIComponent(THREAD_ID)
+    );
+
+    if (!response.ok) {
+      let err = {};
+      try {
+        err = await response.json();
+      } catch (_) {}
+      throw new Error(err.error || "Request failed (" + response.status + ")");
     }
 
-    const data = await res.json();
+    // 2) Read JSON response
+    const data = await response.json();
     const me = data.me;
     const messages = data.messages || [];
 
-    // show who you're chatting with
+    // 3) Show who the conversation is with
     const parts = THREAD_ID.split(":");
-    const other = parts[0] === me ? parts[1] : parts[0];
-    withEl.textContent = `With ${other}`;
+    let otherUser;
 
-    if (!messages.length) {
-      box.innerHTML = `<div class="text-muted small text-center py-3">No messages yet.</div>`;
+    if (parts[0] === me) {
+      otherUser = parts[1];
+    } else {
+      otherUser = parts[0];
+    }
+
+    withEl.textContent = "With " + otherUser;
+
+    // 4) No messages yet
+    if (messages.length === 0) {
+      box.innerHTML =
+        '<div class="text-muted small text-center py-3">No messages yet.</div>';
       return;
     }
 
-    box.innerHTML = messages.map(m => renderBubble(m, me)).join("");
+    // 5) Clear message box
+    box.innerHTML = "";
 
-    // scroll to bottom
+    // 6) Render each message
+    for (let i = 0; i < messages.length; i++) {
+      const message = messages[i];
+      const bubbleHtml = renderBubble(message, me);
+
+      box.insertAdjacentHTML("beforeend", bubbleHtml);
+    }
+
+    // 7) Scroll to bottom
     box.scrollTop = box.scrollHeight;
 
-  } catch (e) {
-    box.innerHTML = `<div class="text-danger small text-center py-3">${escapeHtml(e.message)}</div>`;
+  } catch (error) {
+    box.innerHTML =
+      '<div class="text-danger small text-center py-3">' +
+      escapeHtml(error.message) +
+      "</div>";
   }
 }
 
+// -------------------- MESSAGE COMPOSER --------------------
 function wireComposer() {
   const form = document.getElementById("messageForm");
   const input = document.getElementById("messageInput");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const content = input.value.trim();
-    if (!content) return;
+  if (!form || !input) {
+    return;
+  }
 
-    // optimistic UI: disable while sending
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const content = input.value.trim();
+    if (content === "") {
+      return;
+    }
+
+    // Disable input while sending
     input.disabled = true;
 
     try {
-      const res = await fetch("/api/messages", {
+      const response = await fetch("/api/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ thread_id: THREAD_ID, content })
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          thread_id: THREAD_ID,
+          content: content
+        })
       });
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Send failed (${res.status})`);
+      if (!response.ok) {
+        let err = {};
+        try {
+          err = await response.json();
+        } catch (_) {}
+        throw new Error(err.error || "Send failed (" + response.status + ")");
       }
 
+      // Clear input and reload conversation
       input.value = "";
-      await loadConversation(); // simple refresh after send
+      await loadConversation();
 
-    } catch (e) {
-      alert(`Failed to send: ${e.message}`);
+    } catch (error) {
+      alert("Failed to send: " + error.message);
     } finally {
       input.disabled = false;
       input.focus();
@@ -74,25 +126,42 @@ function wireComposer() {
   });
 }
 
-function renderBubble(m, me) {
-  const isMe = (m.sender === me);
-  const bubbleClass = isMe ? "bubble bubble-me" : "bubble bubble-them";
-  const meta = isMe ? "You" : escapeHtml(m.sender || "Unknown");
-  const text = escapeHtml(m.content || "");
+// -------------------- MESSAGE BUBBLE --------------------
+function renderBubble(message, me) {
+  const isMe = message.sender === me;
 
-  return `
-    <div class="bubble-row ${isMe ? "row-me" : "row-them"}">
-      <div class="${bubbleClass}">
-        <div class="bubble-meta">${meta}</div>
-        <div class="bubble-text">${text}</div>
-      </div>
-    </div>
-  `;
+  const rowClass = isMe ? "row-me" : "row-them";
+  const bubbleClass = isMe ? "bubble bubble-me" : "bubble bubble-them";
+
+  const senderName = isMe
+    ? "You"
+    : escapeHtml(message.sender || "Unknown");
+
+  const text = escapeHtml(message.content || "");
+
+  return (
+    '<div class="bubble-row ' + rowClass + '">' +
+      '<div class="' + bubbleClass + '">' +
+        '<div class="bubble-meta">' + senderName + "</div>" +
+        '<div class="bubble-text">' + text + "</div>" +
+      "</div>" +
+    "</div>"
+  );
 }
 
+// -------------------- HTML ESCAPING --------------------
 function escapeHtml(text) {
-  if (text === undefined || text === null) return "";
-  return String(text).replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-  }[c]));
+  if (text === undefined || text === null) {
+    return "";
+  }
+
+  return String(text).replace(/[&<>"']/g, function (c) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[c];
+  });
 }
