@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 import os
 from dotenv import load_dotenv
+import bcrypt
 
 load_dotenv()
 
@@ -17,10 +18,14 @@ class CreateAccountModel:
         if self.collection.find_one({"email": email}):
             return {"success": False, "message": "Email already exists."}
 
+        # Hash the password with bcrypt
+        hashed_password = bcrypt.hashpw(
+            password.encode('utf-8'), bcrypt.gensalt())
+
         user_data = {
             "username": username,
             "email": email,
-            "password": password  # In a real application, ensure to hash the password
+            "password": hashed_password
         }
 
         result = self.collection.insert_one(user_data)

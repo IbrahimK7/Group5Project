@@ -3,8 +3,10 @@ from pymongo import MongoClient
 from bson import ObjectId
 import os
 from dotenv import load_dotenv
+import bcrypt
 
 load_dotenv()
+
 
 class LoginModel:
     def __init__(self):
@@ -23,7 +25,13 @@ class LoginModel:
         self.collection = self.db["Users"]
 
     def create_user(self, user_data):
-        """Create a new user"""
+        """Create a new user with hashed password"""
+        # Hash the password before storing
+        if 'password' in user_data:
+            password = user_data['password']
+            hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            user_data['password'] = hashed
+
         result = self.collection.insert_one(user_data)
         return str(result.inserted_id)
 
@@ -58,13 +66,19 @@ class LoginModel:
             return False
 
     def authenticate(self, email, password):
-        user = self.collection.find_one({
-            "email": email,
-            "password": password
-        })
-        if user:
+        """Authenticate user with email and password using bcrypt"""
+        user = self.collection.find_one({"email": email})
+
+        if not user:
+            return None
+
+        # Check if password matches using bcrypt
+        stored_password = user.get('password')
+        if stored_password and bcrypt.checkpw(password.encode('utf-8'), stored_password):
             user["_id"] = str(user["_id"])
-        return user
+            return user
+
+        return None
 
     def get_user_summary(self, user_id):
         """Return selected user fields: _id, username, gamertag, email, rating, favourite_game, last_played_games"""
