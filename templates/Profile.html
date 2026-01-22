@@ -3,7 +3,7 @@
 
 <head>
     <!-- CSS Style sheet-->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='newstyle.css') }}"> <!-- { changed code } -->
 
     <!-- Bootsrap link-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,47 +12,89 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
         </script>
 
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+    <title>Profile</title>
 
 </head>
 
-<!-- This is the navigation bar at the top-->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">PlatformName</span>
-        <div class="ms-auto d-flex gap-4">
-            <a href="/home" class="text-white text-decoration-none">Home</a>
-            <a href="/inbox" class="text-white text-decoration-none">Inbox</a>
-            <a href="/host" class="text-white text-decoration-none">Host</a>
-            <a href="/search" class="text-white text-decoration-none">Search</a>
-            <a href="/settings" class="text-white text-decoration-none">Settings</a>
+<body>
+    <!-- This is the navigation bar at the top-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1 text-white">PlatformName</span>
+            <div class="ms-auto d-flex gap-4">
+                <a href="/home" class="text-white text-decoration-none">Home</a>
+                <a href="/inbox" class="text-white text-decoration-none">Inbox</a>
+                <a href="/host" class="text-white text-decoration-none">Host</a>
+                <a href="/search" class="text-white text-decoration-none">Search</a>
+                <a href="/settings" class="text-white text-decoration-none">Settings</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- This is the player profile-->
+    <div class="container py-4">
+        <div class="card p-4 shadow-sm" style="max-width:800px;margin:auto;">
+            <div class="d-flex align-items-center gap-4">
+                <img src="{{ url_for('static', filename='avatar1.png') }}" alt="Avatar" class="rounded-circle"
+                    width="96" height="96">
+                <div>
+                    <!-- Add ids where the JS expects them or keep Jinja defaults for server render -->
+                    <!-- Example: change the template spots to have ids -->
+                    <h3 id="profile-username" class="mb-1">{{ profile.username if profile and profile.username else
+                        'Gamertag' }}</h3>
+                    <div id="profile-role" class="text-muted">{{ profile.role if profile and profile.get('role') else
+                        'Role (optional)' }}
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-3">
+
+            <div class="d-flex justify-content-between text-center">
+                <div class="flex-fill">
+                    <div class="h4 mb-0" id="profile-rating">{{ profile.rating.score if profile and
+                        profile.get('rating') and profile.rating.get('score') else (profile.get('rating') if profile and
+                        profile.get('rating') else '—') }}</div>
+                    <div class="text-muted small">Rating</div>
+                </div>
+                <div class="flex-fill">
+                    <div class="h4 mb-0">{{ profile.rank.rank_name if profile and profile.get('rank') and
+                        profile.rank.get('rank_name') else (profile.get('rank') if profile and profile.get('rank') else
+                        '—') }}</div>
+                    <div class="text-muted small">Rank</div>
+                </div>
+                <div class="flex-fill">
+                    <div class="h4 mb-0">{{ profile.games_owned.game_list|length if profile and
+                        profile.get('games_owned') else (profile.get('games')|length if profile and profile.get('games')
+                        else '—') }}</div>
+                    <div class="text-muted small">Games</div>
+                </div>
+            </div>
+
+            <hr class="my-3">
+
+            <div>
+                <h5 class="mb-1">Bio</h5>
+                <p class="text-muted">{{ profile.bio if profile and profile.get('bio') else 'No bio yet.' }}</p>
+            </div>
+
+            <div>
+                <h5 class="mb-1">Games List</h5>
+                <ul id="profile-games-list">
+                    {% if profile and profile.games %}
+                    {% for g in profile.games %}
+                    <li>{{ g }}</li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
 
-</nav>
+    <!-- load client script -->
+    <script src="{{ url_for('static', filename='profile.js') }}"></script>
+</body>
 
-<!-- This is the player profile-->
-<div class="card1">
-    <div class="profile_card"></div>
-    <div class="user_details">
-        <pf1>Gamertag</pf1>
-        <br>
-    </div>
-    <div class="card_count">
-        <div class="count">
-            <div class="rating1">
-                <pf1>3.2</pf1>
-                <br>
-                <pf2>Rating</pf2>
-            </div>
-            <div class="games1">
-                <pf1>13</pf1>
-                <br>
-                <pf2>Games</pf2>
-            </div>
-        </div>
-    </div>
-</div>
+</html>
