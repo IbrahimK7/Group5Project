@@ -34,24 +34,37 @@
 <!-- PAGE TITLE -->
 <h1 class="page-title text-center mt-4">Edit Profile</h1>
 
+<!-- CURRENT PROFILE INFO -->
+<div class="container mt-4" style="max-width: 500px;">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Current Profile</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Username:</strong> {{ current_username or 'Not set' }}</p>
+            <p><strong>Bio:</strong> {{ current_bio or 'Not set' }}</p>
+        </div>
+    </div>
+</div>
+
 <!-- FORM -->
 <div class="form-box container mt-4" style="max-width: 500px;">
     <form method="POST" action="/api/update-profile">
 
         <div class="mb-3">
             <label class="form-label">Username</label>
-            <input type="text" class="form-control" name="username" placeholder="New username">
+            <input type="text" class="form-control" name="username" value="{{ current_username }}" placeholder="New username">
         </div>
         <div class="mb-3">
             <label class="form-label">Bio</label>
             <textarea class="form-control" name="bio" rows="3"
-                      placeholder="Tell us about yourself..."></textarea>
+                      placeholder="Tell us about yourself...">{{ current_bio }}</textarea>
         </div>
 
         <!-- DELETE PROFILE OPTION -->  
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" name="delete_user" value="yes" id="deleteProfile">
-            <label class="form-check-label text-danger" for="deleteProfile">
+            <label class="form-check-label text-danger" for="deleteProfile
                 Delete my profile
             </label>
             <div class="form-text text-danger">
