@@ -1,5 +1,6 @@
 from flask import request, jsonify, render_template, session, redirect, url_for
 from models.messages_model import MessageModel
+import os
 
 # Create a single instance of the MessageModel
 # This handles all database operations related to messages/threads
@@ -48,6 +49,7 @@ def register_inbox_routes(app):
 
         # Current logged-in username from session
         username = session["username"]
+
 
         # Query DB: get latest message per thread for this user
         threads = message_model.get_threads_for_user(username)

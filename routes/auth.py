@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, session, url_for
 from models.login_model import LoginModel
+import os
 
 # Create a single instance of the LoginModel
 # This handles user authentication and database access
@@ -22,6 +23,7 @@ def register_auth_routes(app):
         - POST: process login credentials
         """
         # If the user submits the login form
+    
         if request.method == "POST":
             # Retrieve form data sent by the browser
             email = request.form.get("email")
@@ -29,6 +31,15 @@ def register_auth_routes(app):
 
             # Attempt to authenticate the user
             user = login_model.authenticate(email, password)
+
+            if user:
+                print("DB RETURNED username =", repr(user.get("username")))
+                print("DB RETURNED email =", repr(user.get("email")))
+                print("DB RETURNED _id =", repr(user.get("_id")))
+                session["user_id"] = user["_id"]
+                session["username"] = user.get("username")
+                print("SESSION username =", repr(session.get("username")))
+                return redirect(url_for("home"))
 
             # Login successful
             if user:
