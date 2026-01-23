@@ -59,7 +59,15 @@ def register_routes(app):
 
     @app.route('/editprofile')
     def edit_profile():
-        return render_template('editprofile.html')
+        current_user_id = session.get("user_id")
+        if not current_user_id:
+            return redirect('/login')
+        
+        user = login_model.get_user_by_id(current_user_id)
+        if not user:
+            return redirect('/home')
+        
+        return render_template('editprofile.html', current_username=user.get('username', ''), current_bio=user.get('bio', ''))
 
     @app.route('/playerprofiles')
     def player_profiles():
@@ -91,7 +99,7 @@ def register_routes(app):
 
         new_username = request.form.get('username')
         bio = request.form.get('bio')
-
+        delete_user = request.form.get('delete_user')
         update_data = {}
 
         if new_username:
@@ -99,6 +107,13 @@ def register_routes(app):
 
         if bio is not None:
             update_data["bio"] = bio
+
+        if delete_user == 'on':
+            login_model.collection.delete_one({"_id": ObjectId(current_user_id)})
+            session.clear()
+            return redirect('/login') 
+        
+        
 
         if update_data:
             login_model.collection.update_one(
